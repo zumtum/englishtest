@@ -1,4 +1,5 @@
 *.log
+.env
 .idea/
 .data/
 /src/node_modules
