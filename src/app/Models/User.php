@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -65,5 +66,21 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'roles_user', 'userId', 'roleId');
+    }
+
+    public function hasAccess(array $permissions): bool
+    {
+        foreach ($this->roles as $role) {
+            if ($role->hasAccess($permissions)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasRole($roleSlug): bool
+    {
+        return $this->roles()->where('slug', $roleSlug)->count() === 1;
     }
 }

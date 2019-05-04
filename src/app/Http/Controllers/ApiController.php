@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterAuthRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -19,6 +20,9 @@ class ApiController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+
+        $role = Role::where('slug', 'student')->first();
+        $user->roles()->attach($role);
 
         if ($this->loginAfterSignUp) {
             return $this->login($request);
