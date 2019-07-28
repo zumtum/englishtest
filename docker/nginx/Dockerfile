@@ -8,4 +8,4 @@ RUN apt-get update \
          libpng-dev \
          libxml2-dev
 ADD englishtest.conf /etc/nginx/conf.d/default.conf
-WORKDIR /var/www/laravel
+WORKDIR /var/www/html

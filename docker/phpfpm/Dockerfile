@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
  && curl -sS https://getcomposer.org/installer \
   | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /var/www/laravel
+
+WORKDIR /var/www/html
 
 COPY entrypoint.sh /var/
 RUN chmod 777 /var/entrypoint.sh
