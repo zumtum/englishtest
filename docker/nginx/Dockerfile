@@ -7,7 +7,5 @@ RUN apt-get update \
          libmcrypt-dev \
          libpng-dev \
          libxml2-dev
-
-ADD englishtest.conf /etc/nginx/sites-available/
-RUN ln -s /etc/nginx/sites-available/englishtest.conf /etc/nginx/conf.d/
-WORKDIR /var/www/html
+ADD englishtest.conf /etc/nginx/conf.d/default.conf
+WORKDIR /var/www/laravel
