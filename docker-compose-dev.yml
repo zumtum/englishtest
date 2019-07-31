@@ -8,7 +8,7 @@ services:
     depends_on:
       - phpfpm
     volumes:
-      - ./src:${APP_PATH_CONTAINER}
+      - app-sync:${APP_PATH_CONTAINER}:nocopy
 
   db:
     image: mysql:5.7
@@ -25,7 +25,7 @@ services:
   phpfpm:
     build: docker/phpfpm
     volumes:
-      - app-sync:${APP_PATH_CONTAINER}
+      - app-sync:${APP_PATH_CONTAINER}:nocopy
       - ${DB_PATH_HOST}/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     ports:
       - 9010:9000
@@ -35,8 +35,8 @@ services:
   composer:
     image: composer:1.7
     volumes:
-      - ./src:${APP_PATH_CONTAINER}
-    working_dir: ${APP_PATH_CONTAINER}
+      - app-sync:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}:nocopy
     command: composer install
 
 volumes:

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Article;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,11 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.articles.create', [
+            'article' => [],
+            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'delimiter' => '',
+        ]);
     }
 
     /**
@@ -38,7 +43,13 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = Article::create($request->all());
+
+        if ($request->input('categories')) {
+            $article->categories()->attach($request->input('categories'));
+        }
+
+        return redirect()->route('admin.article.index');
     }
 
     /**
@@ -55,34 +66,49 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Article $article
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('admin.articles.edit', [
+            'article' => $article,
+            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'delimiter' => '',
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Article $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        //
+        $article->update($request->except('slug'));
+
+        $article->categories()->detach();
+        if ($request->input('categories')) {
+            $article->categories()->attach($request->input('categories'));
+        }
+
+        return redirect()->route('admin.article.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Article $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->categories()->detach();
+        $article->delete();
+
+        return redirect()->route('admin.article.index');
+
     }
 }
