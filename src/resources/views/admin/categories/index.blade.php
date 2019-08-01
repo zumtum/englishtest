@@ -41,13 +41,13 @@
             @endforelse
             </tbody>
             <tfoot>
-            <tr>
-                <td collspan="3">
-                    <ul class="pagenation pull-right">
-                        {{ $categories->links() }}
-                    </ul>
-                </td>
-            </tr>
+                <tr>
+                    <td collspan="3">
+                        <ul class="pagenation pull-right">
+                            {{ $categories->links() }}
+                        </ul>
+                    </td>
+                </tr>
             </tfoot>
         </table>
     </div>

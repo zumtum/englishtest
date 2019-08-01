@@ -2,6 +2,7 @@
 .env
 .idea/
 .data/
+.docker-sync/
 /src/node_modules
 /src/public/hot
 /src/public/storage
