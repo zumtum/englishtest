@@ -15,7 +15,9 @@ class QuizController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.quizzes.index', [
+            'quizzes' => Quiz::orderBy('created_at', 'desc')->paginate(10),
+        ]);
     }
 
     /**
@@ -25,7 +27,9 @@ class QuizController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.quizzes.create', [
+            'quiz' => [],
+        ]);
     }
 
     /**

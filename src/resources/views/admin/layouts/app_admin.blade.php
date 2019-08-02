@@ -36,6 +36,7 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-pre>Engishtest</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
+                            <li><a href="{{ route('admin.quiz.index') }}" class="dropdown-item">Quizzes</a></li>
                             <li><a href="{{ route('admin.category.index') }}" class="dropdown-item">Categories</a></li>
                             <li><a href="{{ route('admin.article.index') }}" class="dropdown-item">Articles</a></li>
                         </ul>
