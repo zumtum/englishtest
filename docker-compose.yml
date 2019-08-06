@@ -32,12 +32,12 @@ services:
     links:
       - db
 
-  composer:
-    image: composer:1.7
-    volumes:
-      - ./src:${APP_PATH_CONTAINER}
-    working_dir: ${APP_PATH_CONTAINER}
-    command: composer install
+#  composer:
+#    image: composer:1.7
+#    volumes:
+#      - ./src:${APP_PATH_CONTAINER}
+#    working_dir: ${APP_PATH_CONTAINER}
+#    command: composer install
 
 volumes:
   mysql_data:

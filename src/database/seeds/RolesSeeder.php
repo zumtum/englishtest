@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RolesSeeder extends Seeder
 {
@@ -11,27 +12,27 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $teacher = \App\Role::create([
+        DB::table('roles')->insert([
             'name' => 'Teacher',
             'slug' => 'teacher',
-            'permissions' => [
+            'permissions' => json_encode([
                 'create-test' => true,
                 'do-test' => true,
-            ]
+            ])
         ]);
-        $student = \App\Role::create([
+        DB::table('roles')->insert([
             'name' => 'Student',
             'slug' => 'student',
-            'permissions' => [
+            'permissions' => json_encode([
                 'do-test' => true,
-            ]
+            ])
         ]);
-        $moderator = \App\Role::create([
+        DB::table('roles')->insert([
             'name' => 'Moderator',
             'slug' => 'moderator',
-            'permissions' => [
+            'permissions' => json_encode([
                 'assign-test' => true,
-            ]
+            ])
         ]);
     }
 }

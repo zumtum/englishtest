@@ -1,10 +1,6 @@
-#FROM composer AS composer
-
 FROM php:7.2-fpm
 
 WORKDIR /var/www/html
-
-#COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -17,20 +13,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install xdebug \
-    && docker-php-ext-enable xdebug
-# && curl -sS https://getcomposer.org/installer \
-#  | php -- --install-dir=/usr/local/bin --filename=composer
+    && docker-php-ext-enable xdebug \
+ && curl -sS https://getcomposer.org/installer \
+  | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY entrypoint.sh /var/
-RUN chmod 777 /var/entrypoint.sh
-ENTRYPOINT ["/var/entrypoint.sh"]
-CMD ["docker-php-entrypoint", "php-fpm"]
 
-#COPY composer.* ./
-#RUN /usr/local/bin/composer global require hirak/prestissimo --no-plugins --no-scripts
-#
-#RUN /usr/local/bin/composer install --no-scripts --no-autoloader
+# Entrypoint script
+#COPY entrypoint.sh /var/
+#RUN chmod 777 /var/entrypoint.sh
+#ENTRYPOINT ["/var/entrypoint.sh"]
+#CMD ["docker-php-entrypoint", "php-fpm"]
 
-#COPY . ./
-#
-#RUN /usr/local/bin/composer install --optimize-autoloader && bin/console assets:install
+RUN usermod -u 1000 www-data
