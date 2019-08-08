@@ -18,6 +18,7 @@ class CreateQuizzesTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description_short')->nullable();
+            $table->string('type_slug');
             $table->unsignedInteger('duration');
             $table->boolean('published');
             $table->integer('created_by')->nullable();
