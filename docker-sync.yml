@@ -1,4 +1,4 @@
 version: '2'
 syncs:
-  app-sync:
+  englishtest-sync:
     src: './src'

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Question;
+use App\QuestionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +16,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.questions.index', [
+            'questions' => Question::orderBy('created_at', 'desc')->paginate(10),
+        ]);
     }
 
     /**
@@ -25,7 +28,10 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.questions.create', [
+            'question' => [],
+            'types' => QuestionType::get(),
+        ]);
     }
 
     /**
@@ -36,7 +42,14 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'duration' => ['required', 'integer'],
+        ]);
+
+        Question::create($request->all());
+
+        return redirect()->route('admin.question.index');
     }
 
     /**

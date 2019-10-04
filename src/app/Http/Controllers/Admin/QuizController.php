@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Quiz;
+use App\QuizType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,6 +30,7 @@ class QuizController extends Controller
     {
         return view('admin.quizzes.create', [
             'quiz' => [],
+            'types' => QuizType::get(),
         ]);
     }
 
@@ -40,7 +42,13 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+        ]);
+
+        Quiz::create($request->all());
+
+        return redirect()->route('admin.quiz.index');
     }
 
     /**
