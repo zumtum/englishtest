@@ -45,6 +45,7 @@ class QuestionController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'duration' => ['required', 'integer'],
+            'scores' => ['required', 'integer'],
         ]);
 
         Question::create($request->all());
@@ -71,7 +72,10 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        return view('admin.questions.edit', [
+            'question' => $question,
+            'types' => QuestionType::get(),
+        ]);
     }
 
     /**
@@ -83,7 +87,15 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'duration' => ['required', 'integer'],
+            'scores' => ['required', 'integer'],
+        ]);
+
+        $question->update($request->except('slug'));
+
+        return redirect()->route('admin.question.index');
     }
 
     /**
@@ -94,6 +106,8 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+
+        return redirect()->route('admin.question.index');
     }
 }

@@ -1,0 +1,9 @@
+vendor/
+app/config/parameter.yml
+app/config/lastruns.yml
+app/config/tokens.yml
+app/config/tokens_acton.yml
+var/cache
+var/logs
+var/cookie
+var/sessions

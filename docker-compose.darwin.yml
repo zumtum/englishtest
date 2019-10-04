@@ -5,11 +5,11 @@ services:
     depends_on:
       - phpfpm
     volumes:
-      - englishtest-sync:/var/www/html:nocopy
+      - englishtest-sync:${APP_PATH_CONTAINER}:nocopy
 
   phpfpm:
     volumes:
-      - englishtest-sync:/var/www/html:nocopy
+      - englishtest-sync:${APP_PATH_CONTAINER}:nocopy
 
 #  composer:
 #    volumes:
