@@ -7,7 +7,7 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue'
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +20,9 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('questions', require('./components/Questions.vue').default);
+import Questions from './components/questions/Questions';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,6 +30,16 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app'
+// const app = new Vue({
+//   el: '#app',
+//   render: h => h(Questions),
+// });
+
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://englishtest-backend.loc:8088/api';
+
+new Vue({
+  el: '#questions-app',
+  render: h => h(Questions)
 });

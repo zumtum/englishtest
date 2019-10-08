@@ -44,6 +44,11 @@
     @endif
 </select>
 
+<label for="">Questions</label>
+<div id="questions-app"></div>
+
 <hr />
 
 <input class="btn btn-primary" type="submit" value="Save">
+
+<script src="{{ asset('js/app.js') }}" defer></script>

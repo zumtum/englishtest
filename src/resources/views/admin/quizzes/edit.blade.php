@@ -5,21 +5,20 @@
     <div class="container">
 
         @component('admin.components.breadcrumbs')
-            @slot('title') Edit question @endslot
+            @slot('title') Edit quiz @endslot
             @slot('parent') Home @endslot
-            @slot('active') Question @endslot
+            @slot('active') Quiz @endslot
         @endcomponent
 
         <hr />
 
-        <form class="form-horizontal" action="{{ route('admin.question.update', $question) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.quiz.update', $quiz) }}" method="post">
             {{ method_field('PUT') }}
             {{ csrf_field() }}
 
-            @include('admin.questions.partials.form')
+            @include('admin.quizzes.partials.form')
 
             <input type="hidden" name="modified_by" value="{{ Auth::id() }}">
         </form>
     </div>
-
 @endsection

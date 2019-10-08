@@ -70,7 +70,10 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        //
+        return view('admin.quizzes.edit', [
+            'quiz' => $quiz,
+            'types' => QuizType::get(),
+        ]);
     }
 
     /**
@@ -82,7 +85,14 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'duration' => ['required', 'integer'],
+        ]);
+
+        $quiz->update($request->except('slug'));
+
+        return redirect()->route('admin.quiz.index');
     }
 
     /**
@@ -93,6 +103,8 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
-        //
+        $quiz->delete();
+
+        return redirect()->route('admin.quiz.index');
     }
 }
