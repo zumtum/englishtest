@@ -36,22 +36,28 @@
   import axios from 'axios';
 
   export default {
+    props: {
+      questions: {
+        type: Array,
+        required: true,
+      }
+    },
     data() {
       return {
-        questions: [],
+        // questions: [],
         selectedQuestions: [],
         questionTitle: '',
         questionAuthor: false,
       }
     },
     methods: {
-      getQuestions() {
-        axios.get('/questions')
-          .then(response => {
-            this.questions = response.data.questions;
-          })
-          .catch(error => console.log(error));
-      },
+      // getQuestions() {
+      //   axios.get('/questions')
+      //     .then(response => {
+      //       this.questions = response.data.data;
+      //     })
+      //     .catch(error => console.log(error));
+      // },
       removeSelectedQuestion(index) {
         this.selectedQuestions.splice(index, 1);
       }
@@ -66,9 +72,6 @@
           return question.title.match(this.questionTitle);
         });
       }
-    },
-    created() {
-      this.getQuestions();
     },
     mounted() {
       console.log('Component mounted.');

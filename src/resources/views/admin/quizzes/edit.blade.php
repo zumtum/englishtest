@@ -11,7 +11,9 @@
         @endcomponent
 
         <hr />
-
+            {{--<script>--}}
+                {{--const questions =--}}
+            {{--</script>--}}
         <form class="form-horizontal" action="{{ route('admin.quiz.update', $quiz) }}" method="post">
             {{ method_field('PUT') }}
             {{ csrf_field() }}

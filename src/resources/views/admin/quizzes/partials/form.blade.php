@@ -45,10 +45,12 @@
 </select>
 
 <label for="">Questions</label>
-<div id="questions-app"></div>
+{{--<div id="questions-app">--}}
+    <questions-select :questions="{{ $questions }}"></questions-select>
+{{--</div>--}}
 
 <hr />
 
 <input class="btn btn-primary" type="submit" value="Save">
 
-<script src="{{ asset('js/app.js') }}" defer></script>
+{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}

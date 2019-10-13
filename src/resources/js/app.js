@@ -21,8 +21,8 @@ import Vue from 'vue'
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-// Vue.component('questions', require('./components/Questions.vue').default);
-import Questions from './components/questions/Questions';
+// Vue.component('questions', require('./components/QuestionsSelect.vue').default);
+import QuestionsSelect from './components/questions/QuestionsSelect';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,9 +37,12 @@ import Questions from './components/questions/Questions';
 
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://englishtest-backend.loc:8088/api';
+// axios.defaults.baseURL = 'http://api.englishtest-backend.loc:8088/v1';
 
 new Vue({
-  el: '#questions-app',
-  render: h => h(Questions)
+  el: '#app',
+  components: {
+    'questions-select': QuestionsSelect
+  },
+  // render: h => h(Questions)
 });
