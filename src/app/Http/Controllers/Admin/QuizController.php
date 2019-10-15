@@ -7,6 +7,7 @@ use App\Quiz;
 use App\QuizType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -46,9 +47,14 @@ class QuizController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'duration' => ['required', 'integer'],
         ]);
 
-        Quiz::create($request->all());
+        $quiz = Quiz::create($request->all());
+
+        if ($request->input('questions')) {
+            $quiz->questions()->attach($request->input('questions'));
+        }
 
         return redirect()->route('admin.quiz.index');
     }
@@ -76,6 +82,8 @@ class QuizController extends Controller
             'quiz' => $quiz,
             'types' => QuizType::get(),
             'questions' => Question::get(),
+            'relatedQuestions' => $quiz->questions()->get(),
+            'userId' => Auth::user()->getAuthIdentifier(),
         ]);
     }
 
@@ -94,6 +102,12 @@ class QuizController extends Controller
         ]);
 
         $quiz->update($request->except('slug'));
+
+        $quiz->questions()->detach();
+
+        if ($request->input('questions')) {
+            $quiz->questions()->attach($request->input('questions'));
+        }
 
         return redirect()->route('admin.quiz.index');
     }

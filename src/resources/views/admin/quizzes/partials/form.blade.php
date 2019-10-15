@@ -46,7 +46,13 @@
 
 <label for="">Questions</label>
 {{--<div id="questions-app">--}}
-    <questions-select :questions="{{ $questions }}"></questions-select>
+    <questions-select
+            :questions="{{ $questions }}"
+            @if (isset($relatedQuestions))
+                :related-questions="{{ $relatedQuestions }}"
+            @endif
+            :user-id="{{ $userId }}">
+    </questions-select>
 {{--</div>--}}
 
 <hr />

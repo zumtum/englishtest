@@ -1733,17 +1733,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     questions: {
       type: Array,
       required: true
+    },
+    relatedQuestions: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    userId: {
+      type: Number,
+      required: true
     }
   },
   data: function data() {
     return {
       // questions: [],
+      checked: true,
       selectedQuestions: [],
       questionTitle: '',
       questionAuthor: false
@@ -1759,6 +1774,21 @@ __webpack_require__.r(__webpack_exports__);
     // },
     removeSelectedQuestion: function removeSelectedQuestion(index) {
       this.selectedQuestions.splice(index, 1);
+    },
+    addSelectedQuestion: function addSelectedQuestion(question) {
+      if (!this.hasQuestion(question)) {
+        this.selectedQuestions.push(question);
+      }
+    },
+    hasQuestion: function hasQuestion(question) {
+      var questionIsset = false;
+      this.selectedQuestions.forEach(function (selectedQuestion) {
+        if (selectedQuestion.id === question.id) {
+          questionIsset = true;
+          return false;
+        }
+      });
+      return questionIsset;
     }
   },
   computed: {
@@ -1767,7 +1797,7 @@ __webpack_require__.r(__webpack_exports__);
 
       return this.questions.filter(function (question) {
         if (_this.questionAuthor) {
-          return question.created_by === 2 && question.title.match(_this.questionTitle);
+          return question.created_by === _this.userId && question.title.match(_this.questionTitle);
         }
 
         return question.title.match(_this.questionTitle);
@@ -1775,6 +1805,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    this.selectedQuestions = this.relatedQuestions;
     console.log('Component mounted.');
   }
 });
@@ -37145,50 +37176,21 @@ var render = function() {
           "ul",
           _vm._l(_vm.filteredQuestions, function(question) {
             return _c("li", { key: question.slug }, [
-              _c("label", [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectedQuestions,
-                      expression: "selectedQuestions"
-                    }
-                  ],
-                  attrs: { type: "checkbox" },
-                  domProps: {
-                    value: question,
-                    checked: Array.isArray(_vm.selectedQuestions)
-                      ? _vm._i(_vm.selectedQuestions, question) > -1
-                      : _vm.selectedQuestions
-                  },
+              _c(
+                "label",
+                {
                   on: {
-                    change: function($event) {
-                      var $$a = _vm.selectedQuestions,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = question,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.selectedQuestions = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.selectedQuestions = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.selectedQuestions = $$c
-                      }
+                    click: function($event) {
+                      return _vm.addSelectedQuestion(question)
                     }
                   }
-                }),
-                _vm._v(" "),
-                _c("span", [_vm._v(_vm._s(question.title))]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(question.description))])
-              ])
+                },
+                [
+                  _c("span", [_vm._v(_vm._s(question.title))]),
+                  _vm._v(" "),
+                  _c("div", [_vm._v(_vm._s(question.description))])
+                ]
+              )
             ])
           }),
           0
@@ -37206,7 +37208,18 @@ var render = function() {
                   }
                 }
               },
-              [_c("div", [_vm._v(_vm._s(selectedQuestion.title))])]
+              [
+                _c("label", [
+                  _c("input", {
+                    attrs: { type: "hidden", name: "questions[]" },
+                    domProps: { value: selectedQuestion.id }
+                  }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(selectedQuestion.title))]),
+                  _vm._v(" "),
+                  _c("div", [_vm._v(_vm._s(selectedQuestion.description))])
+                ])
+              ]
             )
           }),
           0

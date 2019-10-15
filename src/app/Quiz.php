@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
-
 class Quiz extends Model
 {
     protected $fillable = [
@@ -23,5 +22,10 @@ class Quiz extends Model
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug(mb_substr($this->title, 0, 40) . '-' . Carbon::now()->format('dmyHi'), '-');
+    }
+
+    public function questions()
+    {
+        return $this->belongsToMany('App\Question', 'quiz_questions');
     }
 }

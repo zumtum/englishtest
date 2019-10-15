@@ -43,8 +43,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer'],
+            'title' => ['required', 'string'],
             'scores' => ['required', 'integer'],
         ]);
 
@@ -88,8 +87,7 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer'],
+            'title' => ['required', 'string'],
             'scores' => ['required', 'integer'],
         ]);
 

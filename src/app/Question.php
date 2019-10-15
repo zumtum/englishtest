@@ -14,9 +14,9 @@ class Question extends Model
     {
         $this->attributes['slug'] = Str::slug(mb_substr($this->title, 0, 40) . '-' . Carbon::now()->format('dmyHi'), '-');
     }
-//
-//    public function categories()
-//    {
-//        return $this->morphToMany('App\Category', 'categoryable');
-//    }
+
+    public function quizes()
+    {
+        return $this->belongsTo('App\Quiz');
+    }
 }

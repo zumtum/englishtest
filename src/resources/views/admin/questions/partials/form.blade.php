@@ -20,7 +20,7 @@
 <label for="">Scores</label>
 <input type="number" class="form-control" name="scores" value="@if(old('scores')){{old('scores')}}@else{{$question->scores ?? ''}}@endif">
 
-<label for="">Duration (minutes)</label>
+<label for="">Duration (seconds)</label>
 <input type="number" class="form-control" name="duration" value="@if(old('duration')){{old('duration')}}@else{{$question->duration ?? ''}}@endif">
 
 <label for="">Question type</label>
