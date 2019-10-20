@@ -23,6 +23,7 @@ import Vue from 'vue'
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // Vue.component('questions', require('./components/QuestionsSelect.vue').default);
 import QuestionsSelect from './components/questions/QuestionsSelect';
+import QuestionTypes from './components/questions/types/QuestionTypes';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -31,7 +32,7 @@ import QuestionsSelect from './components/questions/QuestionsSelect';
  */
 
 // const app = new Vue({
-//   el: '#app',
+//   EL: '#APP',
 //   render: h => h(Questions),
 // });
 
@@ -42,7 +43,8 @@ import axios from 'axios';
 new Vue({
   el: '#app',
   components: {
-    'questions-select': QuestionsSelect
+    'questions-select': QuestionsSelect,
+    'question-types': QuestionTypes,
   },
   // render: h => h(Questions)
 });

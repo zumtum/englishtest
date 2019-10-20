@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Answer;
 use App\Question;
 use App\QuestionType;
 use Illuminate\Http\Request;
@@ -47,7 +48,11 @@ class QuestionController extends Controller
             'scores' => ['required', 'integer'],
         ]);
 
-        Question::create($request->all());
+        /** @var $question Question */
+        $question = Question::create($request->all());
+
+        $answers = json_decode($request->input('answers'), true);
+        $question->answers()->createMany($answers);
 
         return redirect()->route('admin.question.index');
     }
