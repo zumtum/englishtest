@@ -120,6 +120,7 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
+        $quiz->questions()->detach();
         $quiz->delete();
 
         return redirect()->route('admin.quiz.index');
