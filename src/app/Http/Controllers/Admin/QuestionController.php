@@ -79,6 +79,7 @@ class QuestionController extends Controller
         return view('admin.questions.edit', [
             'question' => $question,
             'types' => QuestionType::get(),
+            'answers' => $question->answers()->get(),
         ]);
     }
 
@@ -97,6 +98,12 @@ class QuestionController extends Controller
         ]);
 
         $question->update($request->except('slug'));
+        $question->answers()->delete();
+
+        if ($request->input('answers')) {
+            $answers = json_decode($request->input('answers'), true);
+            $question->answers()->createMany($answers);
+        }
 
         return redirect()->route('admin.question.index');
     }

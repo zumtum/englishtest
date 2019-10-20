@@ -24,13 +24,6 @@
                         </label>
                     </li>
                 </ul>
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -105,9 +98,9 @@
         });
       }
     },
-    mounted() {
+    created() {
       this.selectedQuestions = this.relatedQuestions;
-      console.log('Component mounted.');
+      console.log('Component created.');
     },
   };
 </script>

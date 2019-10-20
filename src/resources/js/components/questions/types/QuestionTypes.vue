@@ -7,7 +7,7 @@
                     <option v-for="type in types" :value="type.slug" :key="type.slug">{{ type.name }}</option>
                 </select>
             </div>
-            <component :is="switchTypes"></component>
+            <component :is="switchTypes" :related-answers="answers"></component>
         </div>
     </div>
 </template>
@@ -21,6 +21,12 @@
       types: {
         type: Array,
         required: true,
+      },
+      answers: {
+        type: Array,
+        default: function () {
+          return [];
+        },
       },
     },
     components: {

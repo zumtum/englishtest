@@ -50,7 +50,7 @@
 {{--@endif--}}
 {{--</select>--}}
 {{--</div>--}}
-<question-types :types="{{ $types }}"></question-types>
+<question-types :types="{{ $types }}" :answers="{{ $answers }}"></question-types>
 
 <hr/>
 

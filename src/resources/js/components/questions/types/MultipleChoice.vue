@@ -31,6 +31,7 @@
 
 <script>
   export default {
+    props: ['relatedAnswers'],
     methods: {
       addAnswer() {
         this.answers.push({
@@ -50,7 +51,11 @@
       }
     },
     created() {
-      this.addAnswer();
+      if (this.relatedAnswers.length === 0) {
+        this.addAnswer();
+      } else {
+          this.answers = this.relatedAnswers;
+      }
     }
   }
 </script>

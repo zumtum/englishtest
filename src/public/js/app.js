@@ -1730,13 +1730,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -1804,9 +1797,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
+  created: function created() {
     this.selectedQuestions = this.relatedQuestions;
-    console.log('Component mounted.');
+    console.log('Component created.');
   }
 });
 
@@ -1874,6 +1867,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['relatedAnswers'],
   methods: {
     addAnswer: function addAnswer() {
       this.answers.push({
@@ -1893,7 +1887,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.addAnswer();
+    if (this.relatedAnswers.length === 0) {
+      this.addAnswer();
+    } else {
+      this.answers = this.relatedAnswers;
+    }
   }
 });
 
@@ -1931,6 +1929,12 @@ __webpack_require__.r(__webpack_exports__);
     types: {
       type: Array,
       required: true
+    },
+    answers: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
     }
   },
   components: {
@@ -37365,29 +37369,12 @@ var render = function() {
             )
           }),
           0
-        ),
-        _vm._v(" "),
-        _vm._m(0)
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Example Component")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm._v(
-          "\n                    I'm an example component.\n                "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37661,7 +37648,10 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c(_vm.switchTypes, { tag: "component" })
+        _c(_vm.switchTypes, {
+          tag: "component",
+          attrs: { "related-answers": _vm.answers }
+        })
       ],
       1
     )
