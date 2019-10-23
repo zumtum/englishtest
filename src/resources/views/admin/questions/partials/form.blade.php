@@ -50,7 +50,16 @@
 {{--@endif--}}
 {{--</select>--}}
 {{--</div>--}}
-<question-types :types="{{ $types }}" :answers="{{ $answers }}"></question-types>
+<question-types
+    :all-types="{{ $types }}"
+    @if($question->type_slug)
+        :related-type="{{ json_encode($question->type_slug) }}"
+    @endif
+    @if($answers)
+        :answers="{{ $answers }}"
+    @endif
+>
+</question-types>
 
 <hr/>
 

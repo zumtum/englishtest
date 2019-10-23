@@ -14,7 +14,7 @@
                 <tr v-for="(answer, index) in answers" class="d-flex">
                     <th scope="row" class="col-1">{{ index + 1 }}</th>
                     <td class="col-9">
-                        <input type="text" class="form-control" v-model="answer.text">
+                        <input type="text" class="form-control" v-model="answer.text" required>
                     </td>
                     <td class="col-1 text-center">
                         <input type="checkbox" v-model="answer.correct">

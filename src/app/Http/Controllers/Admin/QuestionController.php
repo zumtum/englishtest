@@ -51,8 +51,11 @@ class QuestionController extends Controller
         /** @var $question Question */
         $question = Question::create($request->all());
 
-        $answers = json_decode($request->input('answers'), true);
-        $question->answers()->createMany($answers);
+        if ($request->input('answers')) {
+            $answers = json_decode($request->input('answers'), true);
+
+            $question->answers()->createMany($answers);
+        }
 
         return redirect()->route('admin.question.index');
     }
@@ -97,7 +100,7 @@ class QuestionController extends Controller
             'scores' => ['required', 'integer'],
         ]);
 
-        $question->update($request->except('slug'));
+        $question->update($request->except(['slug', 'text']));
         $question->answers()->delete();
 
         if ($request->input('answers')) {

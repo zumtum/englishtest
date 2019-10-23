@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label>Question type</label>
                 <select class="form-control" name="type_slug" v-model="selectedType">
-                    <option v-for="type in types" :value="type.slug" :key="type.slug">{{ type.name }}</option>
+                    <option v-for="type in allTypes" :value="type.slug" :key="type.slug">{{ type.name }}</option>
                 </select>
             </div>
             <component :is="switchTypes" :related-answers="answers"></component>
@@ -15,12 +15,19 @@
 <script>
   import MultipleChoice from './MultipleChoice';
   import MissingWords from './MissingWords';
+  import WordOrder from './WordOrder';
 
   export default {
     props: {
-      types: {
+      allTypes: {
         type: Array,
-        required: true,
+        default: function () {
+          return [];
+        },
+      },
+      relatedType: {
+        type: String,
+        default: '',
       },
       answers: {
         type: Array,
@@ -32,6 +39,7 @@
     components: {
       'multiple-choice': MultipleChoice,
       'missing-words': MissingWords,
+      'word-order': WordOrder,
     },
     computed: {
       switchTypes() {
@@ -43,8 +51,8 @@
         selectedType: '',
       }
     },
-    mounted() {
-      this.selectedType = this.types[0].slug;
+    created() {
+      this.selectedType = this.relatedType || this.allTypes[0].slug;
     }
   }
 </script>
