@@ -17,6 +17,7 @@
 
 <script>
   export default {
+    props: ['relatedAnswers'],
     data() {
       return {
         answer: [{
@@ -60,6 +61,14 @@
       },
     },
     created() {
+      if (this.relatedAnswers.length > 0) {
+        const separatedAnswer = this.relatedAnswers[0].text.split(this.phraseSeparator);
+
+        this.answerText = separatedAnswer[0];
+        this.defaultAnswerWords = separatedAnswer[0].split(' ');
+        this.modifiedAnserWords = separatedAnswer[1].split(' ');
+      }
+
       this.generateResultAnswer();
     }
   }

@@ -1840,6 +1840,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['relatedAnswers'],
   data: function data() {
     return {
       answer: [{
@@ -1881,6 +1882,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
   },
   created: function created() {
+    if (this.relatedAnswers.length > 0) {
+      var separatedAnswer = this.relatedAnswers[0].text.split(this.phraseSeparator);
+      this.answerText = separatedAnswer[0];
+      this.defaultAnswerWords = separatedAnswer[0].split(' ');
+      this.modifiedAnserWords = separatedAnswer[1].split(' ');
+    }
+
     this.generateResultAnswer();
   }
 });

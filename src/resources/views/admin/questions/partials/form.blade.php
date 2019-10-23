@@ -52,10 +52,10 @@
 {{--</div>--}}
 <question-types
     :all-types="{{ $types }}"
-    @if($question->type_slug)
+    @if(isset($question->type_slug))
         :related-type="{{ json_encode($question->type_slug) }}"
     @endif
-    @if($answers)
+    @if(isset($answers))
         :answers="{{ $answers }}"
     @endif
 >
