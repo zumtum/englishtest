@@ -16,6 +16,7 @@
   import MultipleChoice from './MultipleChoice';
   import MissingWords from './MissingWords';
   import WordOrder from './WordOrder';
+  import MatchPhrases from './MatchPhrases';
 
   export default {
     props: {
@@ -40,6 +41,7 @@
       'multiple-choice': MultipleChoice,
       'missing-words': MissingWords,
       'word-order': WordOrder,
+      'match': MatchPhrases,
     },
     computed: {
       switchTypes() {
