@@ -17,7 +17,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::resource('/article', 'ArticleController', ['as'=>'admin']);
     Route::resource('/quiz', 'QuizController', ['as'=>'admin']);
     Route::resource('/question', 'QuestionController', ['as'=>'admin']);
-    Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement'], function () {
+    Route::resource('/assignment', 'AssignmentController', ['as'=>'admin'])->only([
+        'index', 'create', 'store'
+    ]);
+    Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['auth']], function () {
         Route::resource('/user', 'UserController', ['as' => 'admin.user_management']);
     });
 });

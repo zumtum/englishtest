@@ -46,6 +46,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-pre>Users control</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
                             <li><a href="{{ route('admin.user_management.user.index') }}" class="dropdown-item">Users</a></li>
+                            <li><a href="{{ route('admin.assignment.index') }}" class="dropdown-item">Assignments</a></li>
                         </ul>
                     </li>
                 </ul>

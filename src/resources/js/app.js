@@ -24,6 +24,7 @@ import Vue from 'vue'
 // Vue.component('questions', require('./components/QuestionsSelect.vue').default);
 import QuestionsSelect from './components/questions/QuestionsSelect';
 import QuestionTypes from './components/questions/types/QuestionTypes';
+import EmailsSelect from './components/assignments/EmailsSelect';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -45,6 +46,7 @@ new Vue({
   components: {
     'questions-select': QuestionsSelect,
     'question-types': QuestionTypes,
+    'emails-select': EmailsSelect,
   },
   // render: h => h(Questions)
 });

@@ -12,20 +12,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-//        if ($request->input('search_users')) {
-            return view('admin.user_management.users.index', [
-                'users' => User::with('roles')
-                    ->where('email', 'like', '%' . $request->input('search_users') . '%')
-                    ->paginate(2),
-            ]);
-//        }
-//        return view('admin.user_management.users.index', [
-//            'users' => User::with('roles')->paginate(1),
-//        ]);
+        return view('admin.user_management.users.index', [
+            'users' => User::with('roles')
+                ->where('email', 'like', '%' . $request->input('search_users') . '%')
+                ->paginate(2),
+        ]);
     }
 
     /**
