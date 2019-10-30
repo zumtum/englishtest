@@ -14,11 +14,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user_management.users.index', [
-            'users' => User::paginate(10),
-        ]);
+//        if ($request->input('search_users')) {
+            return view('admin.user_management.users.index', [
+                'users' => User::with('roles')
+                    ->where('email', 'like', '%' . $request->input('search_users') . '%')
+                    ->paginate(2),
+            ]);
+//        }
+//        return view('admin.user_management.users.index', [
+//            'users' => User::with('roles')->paginate(1),
+//        ]);
     }
 
     /**

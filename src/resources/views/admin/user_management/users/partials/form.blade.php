@@ -8,15 +8,19 @@
     </div>
 @endif
 
-<label for="">Name</label>
-<input type="text" class="form-control" name="name" placeholder="User name" value="@if(old('name')){{old('name')}}@else{{$user->name ?? ''}}@endif" required>
-<label for="">Email</label>
-<input type="email" class="form-control" name="email" placeholder="Email" value="@if(old('email')){{old('email')}}@else{{$user->email ?? ''}}@endif" required>
-<label for="">Password</label>
-<input type="password" class="form-control" name="password">
-<label for="">Confirm password</label>
-<input type="password" class="form-control" name="password_confirmation">
+<div class="form-group">
+    <label for="">Email</label>
+    <input type="email" class="form-control" name="email" placeholder="Email"
+           value="@if(old('email')){{old('email')}}@else{{$user->email ?? ''}}@endif" required>
+</div>
+<div class="form-group">
+    <label for="">Password</label>
+    <input type="password" class="form-control" name="password">
+</div>
+<div class="form-group">
+    <label for="">Confirm password</label>
+    <input type="password" class="form-control" name="password_confirmation">
+</div>
+<hr/>
 
-<hr />
-
-<input class="btn btn-primary" type="submit" value="Сохранить">
+<input class="btn btn-primary" type="submit" value="Save">

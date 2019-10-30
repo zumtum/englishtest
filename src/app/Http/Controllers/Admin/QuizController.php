@@ -32,8 +32,9 @@ class QuizController extends Controller
     {
         return view('admin.quizzes.create', [
             'quiz' => [],
-            'types' => QuizType::get(),
-            'questions' => Question::get(),
+            'types' => QuizType::all(),
+            'userId' => Auth::user()->getAuthIdentifier(),
+            'questions' => Question::with('author')->get(),
         ]);
     }
 
@@ -50,6 +51,7 @@ class QuizController extends Controller
             'duration' => ['required', 'integer'],
         ]);
 
+        /** @var Quiz $quiz */
         $quiz = Quiz::create($request->all());
 
         if ($request->input('questions')) {
@@ -81,7 +83,7 @@ class QuizController extends Controller
         return view('admin.quizzes.edit', [
             'quiz' => $quiz,
             'types' => QuizType::get(),
-            'questions' => Question::get(),
+            'questions' => Question::with('author')->get(),
             'relatedQuestions' => $quiz->questions()->get(),
             'userId' => Auth::user()->getAuthIdentifier(),
         ]);

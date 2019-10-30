@@ -24,4 +24,9 @@ class Question extends Model
     {
         return $this->hasMany('App\Answer');
     }
+
+    public function author()
+    {
+        return $this->belongsTo('App\User', 'created_by', 'id');
+    }
 }
