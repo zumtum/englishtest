@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Quiz;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,13 +13,20 @@ class QuizAssigned extends Mailable
     use Queueable, SerializesModels;
 
     /**
+     * The quiz instance.
+     *
+     * @var Quiz
+     */
+    protected $quiz;
+
+    /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($quiz)
     {
-        //
+        $this->quiz = $quiz;
     }
 
     /**
@@ -28,6 +36,8 @@ class QuizAssigned extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.quizzes.assigned', [
+            'quiz' => $this->quiz,
+        ]);
     }
 }

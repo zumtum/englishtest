@@ -18,6 +18,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::resource('/quiz', 'QuizController', ['as'=>'admin']);
     Route::resource('/question', 'QuestionController', ['as'=>'admin']);
     Route::resource('/assignment', 'AssignmentController', ['as'=>'admin']);
+    Route::get('/assignment/{assignment}/send', 'AssignmentController@send', ['as'=>'admin'])->name('admin.assignment.send');
     Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['auth']], function () {
         Route::resource('/user', 'UserController', ['as' => 'admin.user_management']);
     });

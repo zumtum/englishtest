@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Assignment;
+use App\Mail\QuizAssigned;
 use App\Quiz;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AssignmentController extends Controller
 {
@@ -49,6 +52,14 @@ class AssignmentController extends Controller
 
         if ($request->input('users')) {
             $assignment->users()->attach($request->input('users'));
+        }
+
+        if ($request->input('send')) {
+            $quiz = Quiz::find($assignment->quiz_id);
+
+            $this->sendMail($request->input('emails'), $quiz);
+
+            $assignment->update(['sended' => true]);
         }
 
         return redirect()->route('admin.assignment.index');
@@ -98,6 +109,14 @@ class AssignmentController extends Controller
             $assignment->users()->attach($request->input('users'));
         }
 
+        if ($request->input('send')) {
+            $quiz = Quiz::find($request->input('quiz_id'));
+
+            $this->sendMail($request->input('emails'), $quiz);
+
+            $assignment->update(['sended' => true]);
+        }
+
         return redirect()->route('admin.assignment.index');
     }
 
@@ -113,5 +132,24 @@ class AssignmentController extends Controller
         $assignment->delete();
 
         return redirect()->route('admin.assignment.index');
+    }
+
+    public function send(Assignment $assignment)
+    {
+        $emails = $assignment->users()->pluck('email')->toArray();
+        $quiz = Quiz::find($assignment->quiz_id);
+
+        $this->sendMail($emails, $quiz);
+
+        $assignment->update(['sended' => true]);
+
+        return redirect()->route('admin.assignment.index');
+    }
+
+    private function sendMail(array $emails, Quiz $quiz)
+    {
+        Mail::to($emails)
+            ->cc(Auth::user()->email)
+            ->send(new QuizAssigned($quiz));
     }
 }

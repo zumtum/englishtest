@@ -40,7 +40,8 @@
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
 
-                            <button type="button" class="btn btn-success">@if ($assignment->sended === 1) Send @else Resend @endif</button>
+                            <a href="{{route('admin.assignment.send', $assignment)}}"
+                               class="btn btn-success">@if ($assignment->sended === 1) Resend @else Send @endif</a>
                             <a href="{{route('admin.assignment.edit', $assignment)}}"
                                class="btn btn-secondary">Edit</a>
 
