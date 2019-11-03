@@ -7,22 +7,23 @@
         </ul>
     </div>
 @endif
-
 <div class="form-group">
     <label for="">Quizzes</label>
     <select class="form-control" name="quiz_id">
         @foreach($quizzes as $quiz)
-            <option value="{{ $quiz->id }}">{{ $quiz->title }} ({{ $quiz->slug}})</option>
+            <option
+                    value="@if(old('quiz_id')){{old('quiz_id')}}@else{{$quiz->id ?? ''}}@endif"
+                    @if ($assignment->quiz_id == $quiz->id) selected="" @endif>
+                {{ $quiz->title }} ({{ $quiz->slug }})
+            </option>
         @endforeach
     </select>
 </div>
-<emails-select></emails-select>
-{{--<questions-select--}}
-        {{--:questions="{{ $questions }}"--}}
-        {{--@if (isset($relatedQuestions))--}}
-        {{--:related-questions="{{ $relatedQuestions }}"--}}
-        {{--@endif--}}
-        {{--:user-id="{{ $userId }}">--}}
-{{--</questions-select>--}}
+<emails-select
+        :users="{{ $users }}"
+        @if(isset($relatedUsers))
+        :related-users="{{ $relatedUsers }}"
+        @endif
+></emails-select>
 <hr/>
 <input class="btn btn-primary" type="submit" value="Save">

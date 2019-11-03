@@ -1,180 +1,139 @@
 <template>
     <div class="card">
         <h5 class="card-header">Emails selection</h5>
-        <div class="card-body">
-            <div class="form-group">
-                <input type="text" class="form-control" v-model="email" placeholder="Search by emails"
-                       aria-label="Search">
+        <div class="card-body row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" v-model="serchedEmail" placeholder="Search by emails"
+                           aria-label="Search">
+                </div>
+                <div class="form-group selection-container">
+                    <table class="table table-borderless table-hover">
+                        <thead class="thead-dark">
+                            <tr class="d-flex">
+                                <th scope="col" class="col-6">Email</th>
+                                <th scope="col" class="col-6">Roles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="user in filteredUsers"
+                                :key="user.id" class="d-flex"
+                                :class="{ 'table-info': user.active }"
+                                @click="addSelectedUser(user)">
+                                <td class="col-6">
+                                    <span>{{ user.email }}</span>
+                                </td>
+                                <td class="col-6">
+                                    <span>{{ getRoles(user) }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="form-group selection-container">
-                <table class="table table-borderless table-hover">
-                    <thead class="thead-dark">
-                    <tr class="d-flex">
-                        <th scope="col" class="col-12">Email</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!--<tr v-for="question in filteredQuestions" :key="question.slug" class="d-flex"-->
-                        <!--:class="{ 'table-info': question.active }"-->
-                        <!--@click="addSelectedQuestion(question)">-->
-                        <!--<td class="col-8">-->
-                            <!--<span>{{ question.title }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-2 text-center">-->
-                            <!--<span>{{ question.author.name }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-1 text-center">-->
-                            <!--<span>{{ question.scores }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-1 text-right">-->
-                            <!--<span>{{ question.duration }}</span>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    </tbody>
-                </table>
+            <div class="col-md-6">
+                <div class="form-group assigned-container">
+                    <h5 class="card-title mt-2">Assigned emails</h5>
+                    <table class="table table-borderless table-hover mt-4">
+                        <thead class="thead-dark">
+                        <tr class="d-flex">
+                            <th scope="col" class="col-8">Email</th>
+                            <th scope="col" class="col-4 text-right">Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(selectedUser, index) in selectedUsers" :key="selectedUser.id"
+                            class="d-flex">
+                            <td class="col-8">
+                                <input type="hidden" name="emails[]" :value="selectedUser.email">
+                                <input type="hidden" name="users[]" :value="selectedUser.id">
+                                <span>{{ selectedUser.email }}</span>
+                            </td>
+                            <td class="col-4 text-right">
+                                <button class="btn btn-danger btn-sm" @click="removeSelectedUsers(index)">x</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!--<div class="form-group assigned-container" v-show="selectedQuestions.length">-->
-                <!--<h5 class="card-title">Assigned questions</h5>-->
-                <!--<table class="table table-borderless table-hover">-->
-                    <!--<thead class="thead-dark">-->
-                    <!--<tr class="d-flex">-->
-                        <!--<th scope="col" class="col-9">Title</th>-->
-                        <!--<th scope="col" class="col-1 text-center">Scores</th>-->
-                        <!--<th scope="col" class="col-1 text-center">Duration</th>-->
-                        <!--<th scope="col" class="col-1 text-right">Remove</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr v-for="(selectedQuestion, index) in selectedQuestions" :key="selectedQuestion.slug"-->
-                        <!--class="d-flex">-->
-                        <!--<td class="col-9">-->
-                            <!--<input type="hidden" name="questions[]" :value="selectedQuestion.id">-->
-                            <!--<span>{{ selectedQuestion.title }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-1 text-center">-->
-                            <!--<span>{{ selectedQuestion.scores }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-1 text-center">-->
-                            <!--<span>{{ selectedQuestion.duration }}</span>-->
-                        <!--</td>-->
-                        <!--<td class="col-1 text-right">-->
-                            <!--<button class="btn btn-danger" @click="removeSelectedQuestion(index)">X</button>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
         </div>
     </div>
 </template>
 
 <script>
-  import axios from 'axios';
-
   export default {
     props: {
-      questions: {
+      users: {
         type: Array,
         required: true,
       },
-      relatedQuestions: {
+      relatedUsers: {
         type: Array,
         default: function () {
           return [];
         },
       },
-      userId: {
-        type: Number,
-        required: true,
-      }
     },
     data() {
       return {
-        // questions: [],
-        checked: true,
-        selectedQuestions: [],
-        email: '',
-        questionAuthor: false,
-        totalScores: 0,
-        totalDuration: 0,
+        selectedUsers: [],
+        serchedEmail: '',
       }
     },
     methods: {
-      // getQuestions() {
-      //   axios.get('/questions')
-      //     .then(response => {
-      //       this.questions = response.data.data;
-      //     })
-      //     .catch(error => console.log(error));
-      // },
-      removeSelectedQuestion(index) {
-        const questionId = this.selectedQuestions[index].id;
+      removeSelectedUsers(index) {
+        const userId = this.selectedUsers[index].id;
 
-        this.selectedQuestions.splice(index, 1);
+        this.selectedUsers.splice(index, 1);
 
-        this.questions.forEach(question => {
-          if (questionId === question.id) {
-            question.active = false;
+        this.users.forEach(user => {
+          if (userId === user.id) {
+            user.active = false;
           }
         });
-
-        this.countTotalValues();
       },
-      addSelectedQuestion(question) {
-        if (!this.hasQuestion(question)) {
-          question.active = !question.active;
-          this.selectedQuestions.push(question);
-
-          this.countTotalValues();
+      addSelectedUser(user) {
+        if (!this.hasUser(user)) {
+          user.active = !user.active;
+          this.selectedUsers.push(user);
         }
       },
-      hasQuestion(question) {
-        let questionIsset = false;
+      hasUser(user) {
+        let userIsset = false;
 
-        this.selectedQuestions.forEach(selectedQuestion => {
-          if (selectedQuestion.id === question.id) {
-            questionIsset = true;
+        this.selectedUsers.forEach(selectedUser => {
+          if (selectedUser.id === user.id) {
+            userIsset = true;
             return false;
           }
         });
 
-        return questionIsset;
+        return userIsset;
       },
-      countTotalValues() {
-        this.totalScores = 0;
-        this.totalDuration = 0;
-
-        this.selectedQuestions.forEach(selectedQuestion => {
-          this.totalScores += selectedQuestion.scores;
-          this.totalDuration += selectedQuestion.duration;
-        })
+      getRoles(user) {
+        return user.roles.map(role => role.name).join(', ');
       },
-      initRelatedQuestins() {
-        this.selectedQuestions = this.relatedQuestions;
-        this.selectedQuestions.forEach(selectedQuestion => {
-          let foundQuestion = this.questions.find(question => {
-            return question.id === selectedQuestion.id;
+      initRelatedUsers() {
+        this.selectedUsers = this.relatedUsers;
+        this.selectedUsers.forEach(selectedUser => {
+          let foundUser = this.users.find(user => {
+            return user.id === selectedUser.id;
           });
 
-          foundQuestion.active = true;
+          foundUser.active = true;
         });
-
-        this.countTotalValues();
       }
     },
     computed: {
-      filteredQuestions() {
-        return this.questions.filter(question => {
-          if (this.questionAuthor) {
-            return question.created_by === this.userId && question.title.match(this.questionTitle);
-          }
-
-          return question.title.match(this.questionTitle);
+      filteredUsers() {
+        return this.users.filter(user => {
+          return user.email.match(this.serchedEmail);
         });
-      }
+      },
     },
     created() {
-      this.initRelatedQuestins();
+      this.initRelatedUsers();
     },
   };
 </script>
@@ -188,13 +147,5 @@
         max-height: 350px;
         overflow-y: auto;
         display: block;
-    }
-
-    .totalLabel {
-        font-size: 22px;
-    }
-
-    .totalValue {
-        font-size: 26px;
     }
 </style>

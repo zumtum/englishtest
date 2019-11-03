@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Assignment;
 use App\Quiz;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +18,7 @@ class AssignmentController extends Controller
     public function index()
     {
         return view('admin.assignments.index', [
-            'assignments' => Assignment::orderBy('created_at', 'desc')->paginate(10),
+            'assignments' => Assignment::with('quiz')->orderBy('created_at', 'desc')->paginate(10),
         ]);
     }
 
@@ -31,6 +32,7 @@ class AssignmentController extends Controller
         return view('admin.assignments.create', [
             'assignment' => [],
             'quizzes' => Quiz::all(),
+            'users' => User::with('roles')->get(),
         ]);
     }
 
@@ -42,7 +44,14 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /** @var $assignment Assignment */
+        $assignment = Assignment::create($request->all());
+
+        if ($request->input('users')) {
+            $assignment->users()->attach($request->input('users'));
+        }
+
+        return redirect()->route('admin.assignment.index');
     }
 
     /**
@@ -51,7 +60,7 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assigment
      * @return \Illuminate\Http\Response
      */
-    public function show(Assignment $assigment)
+    public function show(Assignment $assignment)
     {
         //
     }
@@ -62,9 +71,14 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assigment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Assignment $assigment)
+    public function edit(Assignment $assignment)
     {
-        //
+        return view('admin.assignments.edit', [
+            'assignment' => $assignment,
+            'quizzes' => Quiz::all(),
+            'users' => User::with('roles')->get(),
+            'relatedUsers' => $assignment->users()->get(),
+        ]);
     }
 
     /**
@@ -74,9 +88,17 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assigment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assignment $assigment)
+    public function update(Request $request, Assignment $assignment)
     {
-        //
+        $assignment->update();
+
+        $assignment->users()->detach();
+
+        if ($request->input('users')) {
+            $assignment->users()->attach($request->input('users'));
+        }
+
+        return redirect()->route('admin.assignment.index');
     }
 
     /**
@@ -85,8 +107,11 @@ class AssignmentController extends Controller
      * @param  \App\Assignment  $assigment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Assignment $assigment)
+    public function destroy(Assignment $assignment)
     {
-        //
+        $assignment->users()->detach();
+        $assignment->delete();
+
+        return redirect()->route('admin.assignment.index');
     }
 }

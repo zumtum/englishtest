@@ -10,6 +10,11 @@ class Assignment extends Model
 
     public function quiz()
     {
-        return $this->hasOne('App\Quiz');
+        return $this->hasOne('App\Quiz', 'id', 'quiz_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'assignment_user');
     }
 }

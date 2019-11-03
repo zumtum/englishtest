@@ -16,51 +16,54 @@
             <a href="{{route('admin.assignment.create')}}" class="btn btn-primary pull-right"><i
                         class="fa fa-plus-square-o"></i> Add new assigment</a>
         </div>
-        <table class="table table-striped">
+        <table class="table  table-borderless">
             <thead class="thead-dark">
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th class="text-right">Action</th>
+            <tr class="d-flex">
+                <th scope="col" class="col-3">Quiz Title</th>
+                <th scope="col" class="col-2">Quiz Author</th>
+                <th scope="col" class="col-3">Emails</th>
+                <th scope="col" class="col-1">Status</th>
+                <th scope="col" class="col-3 text-right">Action</th>
             </tr>
             </thead>
             <tbody>
             @forelse ($assignments as $assignment)
-                <tr>
-                    {{--<td>{{ $user->name }}</td>--}}
-                    {{--<td>{{ $user->email }}</td>--}}
-                    {{--<td>{{ $user->roles->pluck('name')->implode(', ') }}</td>--}}
-                    {{--<td class="text-right">--}}
-                        {{--<form onsubmit="if(confirm('Delete?')){return true}else{return false}"--}}
-                              {{--action="{{route('admin.user_management.user.destroy', $user)}}" method="post">--}}
-                            {{--{{method_field('DELETE')}}--}}
-                            {{--{{csrf_field()}}--}}
+                <tr class="d-flex">
+                    <td class="col-3">{{ $assignment->quiz->title }}</td>
+                    <td class="col-2">{{ $assignment->quiz->author->name }}</td>
+                    <td class="col-3">{{ $assignment->users->pluck('email')->implode(', ') }}</td>
 
-                            {{--<button type="button" class="btn btn-secondary">Assign test</button>--}}
-                            {{--<a href="{{route('admin.user_management.user.edit', $user)}}"--}}
-                               {{--class="btn btn-success">Edit</a>--}}
+                    <td class="col-1">@if ($assignment->sended === 1) Sended @else Not sended @endif</td>
+                    <td class="col-3 text-right">
+                        <form onsubmit="if(confirm('Delete?')){return true}else{return false}"
+                              action="{{route('admin.assignment.destroy', $assignment)}}" method="post">
+                            {{method_field('DELETE')}}
+                            {{csrf_field()}}
 
-                            {{--<button type="submit" class="btn btn-danger">Delete</button>--}}
-                        {{--</form>--}}
-                    {{--</td>--}}
+                            <button type="button" class="btn btn-success">@if ($assignment->sended === 1) Send @else Resend @endif</button>
+                            <a href="{{route('admin.assignment.edit', $assignment)}}"
+                               class="btn btn-secondary">Edit</a>
+
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center"><h2>No assignments</h2></td>
+                    <td colspan="5" class="text-center"><h2>No assignments</h2></td>
                 </tr>
             @endforelse
             </tbody>
             <tfoot>
-                {{--<tr>--}}
-                    {{--<td colspan="4">--}}
-                        {{--<nav>--}}
-                            {{--<ul class="pagination justify-content-end">--}}
-                                {{--{{$users->links()}}--}}
-                            {{--</ul>--}}
-                        {{--</nav>--}}
-                    {{--</td>--}}
-                {{--</tr>--}}
+                <tr>
+                    <td colspan="5">
+                        <nav>
+                            <ul class="pagination justify-content-end">
+                                {{$assignments->links()}}
+                            </ul>
+                        </nav>
+                    </td>
+                </tr>
             </tfoot>
         </table>
     </div>

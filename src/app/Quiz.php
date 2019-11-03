@@ -28,4 +28,9 @@ class Quiz extends Model
     {
         return $this->belongsToMany('App\Question', 'quiz_questions');
     }
+
+    public function author()
+    {
+        return $this->belongsTo('App\User', 'created_by', 'id');
+    }
 }

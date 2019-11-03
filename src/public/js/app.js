@@ -1697,8 +1697,6 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1762,116 +1760,80 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    questions: {
+    users: {
       type: Array,
       required: true
     },
-    relatedQuestions: {
+    relatedUsers: {
       type: Array,
       "default": function _default() {
         return [];
       }
-    },
-    userId: {
-      type: Number,
-      required: true
     }
   },
   data: function data() {
     return {
-      // questions: [],
-      checked: true,
-      selectedQuestions: [],
-      email: '',
-      questionAuthor: false,
-      totalScores: 0,
-      totalDuration: 0
+      selectedUsers: [],
+      serchedEmail: ''
     };
   },
   methods: {
-    // getQuestions() {
-    //   axios.get('/questions')
-    //     .then(response => {
-    //       this.questions = response.data.data;
-    //     })
-    //     .catch(error => console.log(error));
-    // },
-    removeSelectedQuestion: function removeSelectedQuestion(index) {
-      var questionId = this.selectedQuestions[index].id;
-      this.selectedQuestions.splice(index, 1);
-      this.questions.forEach(function (question) {
-        if (questionId === question.id) {
-          question.active = false;
+    removeSelectedUsers: function removeSelectedUsers(index) {
+      var userId = this.selectedUsers[index].id;
+      this.selectedUsers.splice(index, 1);
+      this.users.forEach(function (user) {
+        if (userId === user.id) {
+          user.active = false;
         }
       });
-      this.countTotalValues();
     },
-    addSelectedQuestion: function addSelectedQuestion(question) {
-      if (!this.hasQuestion(question)) {
-        question.active = !question.active;
-        this.selectedQuestions.push(question);
-        this.countTotalValues();
+    addSelectedUser: function addSelectedUser(user) {
+      if (!this.hasUser(user)) {
+        user.active = !user.active;
+        this.selectedUsers.push(user);
       }
     },
-    hasQuestion: function hasQuestion(question) {
-      var questionIsset = false;
-      this.selectedQuestions.forEach(function (selectedQuestion) {
-        if (selectedQuestion.id === question.id) {
-          questionIsset = true;
+    hasUser: function hasUser(user) {
+      var userIsset = false;
+      this.selectedUsers.forEach(function (selectedUser) {
+        if (selectedUser.id === user.id) {
+          userIsset = true;
           return false;
         }
       });
-      return questionIsset;
+      return userIsset;
     },
-    countTotalValues: function countTotalValues() {
+    getRoles: function getRoles(user) {
+      return user.roles.map(function (role) {
+        return role.name;
+      }).join(', ');
+    },
+    initRelatedUsers: function initRelatedUsers() {
       var _this = this;
 
-      this.totalScores = 0;
-      this.totalDuration = 0;
-      this.selectedQuestions.forEach(function (selectedQuestion) {
-        _this.totalScores += selectedQuestion.scores;
-        _this.totalDuration += selectedQuestion.duration;
-      });
-    },
-    initRelatedQuestins: function initRelatedQuestins() {
-      var _this2 = this;
-
-      this.selectedQuestions = this.relatedQuestions;
-      this.selectedQuestions.forEach(function (selectedQuestion) {
-        var foundQuestion = _this2.questions.find(function (question) {
-          return question.id === selectedQuestion.id;
+      this.selectedUsers = this.relatedUsers;
+      this.selectedUsers.forEach(function (selectedUser) {
+        var foundUser = _this.users.find(function (user) {
+          return user.id === selectedUser.id;
         });
 
-        foundQuestion.active = true;
+        foundUser.active = true;
       });
-      this.countTotalValues();
     }
   },
   computed: {
-    filteredQuestions: function filteredQuestions() {
-      var _this3 = this;
+    filteredUsers: function filteredUsers() {
+      var _this2 = this;
 
-      return this.questions.filter(function (question) {
-        if (_this3.questionAuthor) {
-          return question.created_by === _this3.userId && question.title.match(_this3.questionTitle);
-        }
-
-        return question.title.match(_this3.questionTitle);
+      return this.users.filter(function (user) {
+        return user.email.match(_this2.serchedEmail);
       });
     }
   },
   created: function created() {
-    this.initRelatedQuestins();
+    this.initRelatedUsers();
   }
 });
 
@@ -6908,7 +6870,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.selection-container tr[data-v-4a5cfdc7] {\n    cursor: pointer;\n}\n.selection-container table.table tbody[data-v-4a5cfdc7] {\n    max-height: 350px;\n    overflow-y: auto;\n    display: block;\n}\n.totalLabel[data-v-4a5cfdc7] {\n    font-size: 22px;\n}\n.totalValue[data-v-4a5cfdc7] {\n    font-size: 26px;\n}\n", ""]);
+exports.push([module.i, "\n.selection-container tr[data-v-4a5cfdc7] {\n    cursor: pointer;\n}\n.selection-container table.table tbody[data-v-4a5cfdc7] {\n    max-height: 350px;\n    overflow-y: auto;\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -38491,36 +38453,128 @@ var render = function() {
   return _c("div", { staticClass: "card" }, [
     _c("h5", { staticClass: "card-header" }, [_vm._v("Emails selection")]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.email,
-              expression: "email"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            placeholder: "Search by emails",
-            "aria-label": "Search"
-          },
-          domProps: { value: _vm.email },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+    _c("div", { staticClass: "card-body row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.serchedEmail,
+                expression: "serchedEmail"
               }
-              _vm.email = $event.target.value
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Search by emails",
+              "aria-label": "Search"
+            },
+            domProps: { value: _vm.serchedEmail },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.serchedEmail = $event.target.value
+              }
             }
-          }
-        })
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group selection-container" }, [
+          _c("table", { staticClass: "table table-borderless table-hover" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.filteredUsers, function(user) {
+                return _c(
+                  "tr",
+                  {
+                    key: user.id,
+                    staticClass: "d-flex",
+                    class: { "table-info": user.active },
+                    on: {
+                      click: function($event) {
+                        return _vm.addSelectedUser(user)
+                      }
+                    }
+                  },
+                  [
+                    _c("td", { staticClass: "col-6" }, [
+                      _c("span", [_vm._v(_vm._s(user.email))])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "col-6" }, [
+                      _c("span", [_vm._v(_vm._s(_vm.getRoles(user)))])
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "form-group assigned-container" }, [
+          _c("h5", { staticClass: "card-title mt-2" }, [
+            _vm._v("Assigned emails")
+          ]),
+          _vm._v(" "),
+          _c(
+            "table",
+            { staticClass: "table table-borderless table-hover mt-4" },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.selectedUsers, function(selectedUser, index) {
+                  return _c(
+                    "tr",
+                    { key: selectedUser.id, staticClass: "d-flex" },
+                    [
+                      _c("td", { staticClass: "col-8" }, [
+                        _c("input", {
+                          attrs: { type: "hidden", name: "emails[]" },
+                          domProps: { value: selectedUser.email }
+                        }),
+                        _vm._v(" "),
+                        _c("input", {
+                          attrs: { type: "hidden", name: "users[]" },
+                          domProps: { value: selectedUser.id }
+                        }),
+                        _vm._v(" "),
+                        _c("span", [_vm._v(_vm._s(selectedUser.email))])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "col-4 text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.removeSelectedUsers(index)
+                              }
+                            }
+                          },
+                          [_vm._v("x")]
+                        )
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -38529,17 +38583,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group selection-container" }, [
-      _c("table", { staticClass: "table table-borderless table-hover" }, [
-        _c("thead", { staticClass: "thead-dark" }, [
-          _c("tr", { staticClass: "d-flex" }, [
-            _c("th", { staticClass: "col-12", attrs: { scope: "col" } }, [
-              _vm._v("Email")
-            ])
-          ])
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", { staticClass: "d-flex" }, [
+        _c("th", { staticClass: "col-6", attrs: { scope: "col" } }, [
+          _vm._v("Email")
         ]),
         _vm._v(" "),
-        _c("tbody")
+        _c("th", { staticClass: "col-6", attrs: { scope: "col" } }, [
+          _vm._v("Roles")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", { staticClass: "d-flex" }, [
+        _c("th", { staticClass: "col-8", attrs: { scope: "col" } }, [
+          _vm._v("Email")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-4 text-right", attrs: { scope: "col" } }, [
+          _vm._v("Remove")
+        ])
       ])
     ])
   }
