@@ -20,7 +20,7 @@ class UserController extends Controller
         return view('admin.user_management.users.index', [
             'users' => User::with('roles')
                 ->where('email', 'like', '%' . $request->input('search_users') . '%')
-                ->paginate(2),
+                ->paginate(10),
         ]);
     }
 

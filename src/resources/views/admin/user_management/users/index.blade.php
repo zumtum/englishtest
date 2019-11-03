@@ -28,7 +28,7 @@
                 </div>
             </div>
         </form>
-        <table class="table table-striped">
+        <table class="table table-borderless">
             <thead class="thead-dark">
             <tr>
                 <th>Username</th>
@@ -49,7 +49,6 @@
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
 
-                            <button type="button" class="btn btn-secondary">Assign test</button>
                             <a href="{{route('admin.user_management.user.edit', $user)}}"
                                class="btn btn-success">Edit</a>
 

@@ -13,7 +13,8 @@
         @foreach($quizzes as $quiz)
             <option
                     value="@if(old('quiz_id')){{old('quiz_id')}}@else{{$quiz->id ?? ''}}@endif"
-                    @if (isset($assignment->quiz_id) && $assignment->quiz_id == $quiz->id) selected="" @endif>
+                    @if (isset($assignment->quiz_id) && $assignment->quiz_id == $quiz->id) selected="" @endif
+                    @if (isset($assignedQuiz) && $assignedQuiz->id == $quiz->id) selected="" @endif>
                 {{ $quiz->title }} ({{ $quiz->slug }})
             </option>
         @endforeach

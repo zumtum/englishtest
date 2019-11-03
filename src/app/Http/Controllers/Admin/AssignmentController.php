@@ -30,11 +30,16 @@ class AssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, Quiz $quiz)
     {
+        if ($request->get('quiz_id')) {
+            $quiz = Quiz::find($request->get('quiz_id'));
+        }
+
         return view('admin.assignments.create', [
             'assignment' => [],
             'quizzes' => Quiz::all(),
+            'assignedQuiz' => $quiz ?? null,
             'users' => User::with('roles')->get(),
         ]);
     }
@@ -134,6 +139,11 @@ class AssignmentController extends Controller
         return redirect()->route('admin.assignment.index');
     }
 
+    /**
+     * @param Assignment $assignment
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function send(Assignment $assignment)
     {
         $emails = $assignment->users()->pluck('email')->toArray();
@@ -146,6 +156,10 @@ class AssignmentController extends Controller
         return redirect()->route('admin.assignment.index');
     }
 
+    /**
+     * @param array $emails
+     * @param Quiz $quiz
+     */
     private function sendMail(array $emails, Quiz $quiz)
     {
         Mail::to($emails)

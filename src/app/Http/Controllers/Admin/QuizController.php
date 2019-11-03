@@ -19,7 +19,7 @@ class QuizController extends Controller
     public function index()
     {
         return view('admin.quizzes.index', [
-            'quizzes' => Quiz::orderBy('created_at', 'desc')->paginate(10),
+            'quizzes' => Quiz::with('questions')->orderBy('created_at', 'desc')->paginate(10),
         ]);
     }
 
@@ -48,7 +48,6 @@ class QuizController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer'],
         ]);
 
         /** @var Quiz $quiz */

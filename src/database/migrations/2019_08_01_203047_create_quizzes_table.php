@@ -20,6 +20,7 @@ class CreateQuizzesTable extends Migration
             $table->text('description_short')->nullable();
             $table->string('type_slug');
             $table->unsignedInteger('duration');
+            $table->unsignedInteger('scores');
             $table->boolean('published');
             $table->integer('created_by')->nullable();
             $table->integer('modified_by')->nullable();

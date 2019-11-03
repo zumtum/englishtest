@@ -23,7 +23,7 @@
                 <th scope="col" class="col-2">Quiz Author</th>
                 <th scope="col" class="col-3">Emails</th>
                 <th scope="col" class="col-1">Status</th>
-                <th scope="col" class="col-3 text-right">Action</th>
+                <th scope="col" class="col-3 text-right">Actions</th>
             </tr>
             </thead>
             <tbody>

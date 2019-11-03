@@ -1934,6 +1934,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -38766,6 +38767,11 @@ var render = function() {
         [
           _c("div", { staticClass: "offset-md-3 col-md-3 totalLabel" }, [
             _vm._v("Total Scores\n                "),
+            _c("input", {
+              attrs: { type: "hidden", name: "scores" },
+              domProps: { value: _vm.totalScores }
+            }),
+            _vm._v(" "),
             _c("div", { staticClass: "totalValue" }, [
               _vm._v(_vm._s(_vm.totalScores))
             ])

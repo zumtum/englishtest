@@ -14,6 +14,7 @@ class Quiz extends Model
         'description_short',
         'type_slug',
         'duration',
+        'scores',
         'published',
         'created_by',
         'modified_by'

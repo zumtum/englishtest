@@ -40,6 +40,7 @@
             </div>
             <div class="form-group row total-container text-center" v-show="selectedQuestions.length">
                 <div class="offset-md-3 col-md-3 totalLabel">Total Scores
+                    <input type="hidden" name="scores" :value="totalScores">
                     <div class="totalValue">{{ totalScores }}</div>
                 </div>
                 <div class="col-md-3 totalLabel">Total Duration(seconds)

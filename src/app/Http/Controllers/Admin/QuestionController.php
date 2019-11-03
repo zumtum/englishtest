@@ -18,7 +18,9 @@ class QuestionController extends Controller
     public function index()
     {
         return view('admin.questions.index', [
-            'questions' => Question::orderBy('created_at', 'desc')->paginate(10),
+            'questions' => Question::with('author')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10),
         ]);
     }
 
