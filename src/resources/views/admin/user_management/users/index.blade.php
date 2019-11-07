@@ -17,8 +17,10 @@
                 <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
                         class="fa fa-plus-square-o"></i> Add new user</a>
             @endcan
-                <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
+            @can ('send', \App\User::class)
+                <a href="{{route('admin.user_management.user.invite')}}" class="btn btn-primary pull-right"><i
                             class="fa fa-plus-square-o"></i> Invite user</a>
+            @endcan
         </div>
         <form action='{{route('admin.user_management.user.index')}}' method='get'>
             <div class="input-group mb-3">

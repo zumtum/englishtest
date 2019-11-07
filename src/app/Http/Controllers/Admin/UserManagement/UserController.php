@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin\UserManagement;
 
+use App\Mail\UserInvited;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -127,5 +129,49 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('admin.user_management.user.index');
+    }
+
+    /**
+     * Show the form for inviting a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function invite()
+    {
+        $this->authorize('send',User::class);
+
+        return view('admin.user_management.users.invite', [
+            'user' => [],
+        ]);
+    }
+
+    /**
+     * Send inventation to new user
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function send(Request $request)
+    {
+        $this->authorize(User::class);
+
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')],
+        ]);
+
+        $email = $request->input('email');
+
+        $this->sendMail($email);
+
+        return redirect()->route('admin.user_management.user.index');
+    }
+
+    /**
+     * @param string $email
+     */
+    private function sendMail(string $email)
+    {
+        Mail::to($email)
+            ->send(new UserInvited());
     }
 }

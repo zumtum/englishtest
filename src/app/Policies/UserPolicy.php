@@ -79,4 +79,17 @@ class UserPolicy
     {
         //
     }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\User  $model
+     * @return mixed
+     */
+    public function send(User $user)
+    {
+        return $user->hasAccess(['send-inventation']);
+    }
+
 }

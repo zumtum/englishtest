@@ -20,6 +20,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::resource('/assignment', 'AssignmentController', ['as'=>'admin']);
     Route::get('/assignment/{assignment}/send', 'AssignmentController@send', ['as'=>'admin'])->name('admin.assignment.send');
     Route::group(['prefix' => 'user_management', 'namespace' => 'UserManagement', 'middleware' => ['auth']], function () {
+        Route::get('/user/invite', 'UserController@invite', ['as'=>'admin.user_management'])->name('admin.user_management.user.invite');
+        Route::get('/user/invite/send', 'UserController@send', ['as'=>'admin.user_management'])->name('admin.user_management.user.invite.send');
         Route::resource('/user', 'UserController', ['as' => 'admin.user_management']);
     });
 });
