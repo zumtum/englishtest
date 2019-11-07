@@ -13,8 +13,12 @@
         <hr>
 
         <div class="form-group">
-            <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
+            @can ('create', \App\User::class)
+                <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
                         class="fa fa-plus-square-o"></i> Add new user</a>
+            @endcan
+                <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
+                            class="fa fa-plus-square-o"></i> Invite user</a>
         </div>
         <form action='{{route('admin.user_management.user.index')}}' method='get'>
             <div class="input-group mb-3">
@@ -34,7 +38,7 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th class="text-right">Action</th>
+                <th class="text-right">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -49,10 +53,14 @@
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
 
-                            <a href="{{route('admin.user_management.user.edit', $user)}}"
-                               class="btn btn-success">Edit</a>
+                            @can ('update', $user)
+                                <a href="{{route('admin.user_management.user.edit', $user)}}"
+                                   class="btn btn-success">Edit</a>
+                            @endcan
 
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            @can ('delete', $user)
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            @endcan
                         </form>
                     </td>
                 </tr>

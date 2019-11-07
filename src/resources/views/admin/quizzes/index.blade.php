@@ -11,9 +11,11 @@
         @endcomponent
         <hr>
 
-        <div class="form-group">
-            <a href="{{route('admin.quiz.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new quiz</a>
-        </div>
+        @can ('create', \App\Quiz::class)
+            <div class="form-group">
+                <a href="{{route('admin.quiz.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new quiz</a>
+            </div>
+        @endcan
         <table class="table table-borderless">
             <thead class="thead-dark">
                 <tr class="d-flex">
@@ -29,7 +31,7 @@
                 <tr class="d-flex">
                     <td class="col-6">{{$quiz->title}}</td>
                     <td class="col-1 text-center">
-                        @if($quiz->published === 1)
+                        @if ($quiz->published === 1)
                             Yes
                         @else
                             No
@@ -42,10 +44,18 @@
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
 
-                            <a class="btn btn-success" href="{{route('admin.assignment.create', ['quiz_id' => $quiz])}}">Assing users</a>
-                            <a class="btn btn-secondary" href="{{route('admin.quiz.edit', $quiz)}}">Edit</a>
+                            @can ('users.control')
+                                @if ($quiz->published)
+                                    <a class="btn btn-success" href="{{route('admin.assignment.create', ['quiz_id' => $quiz])}}">Assing users</a>
+                                @endif
+                            @endcan
+                            @can ('update', $quiz)
+                                <a class="btn btn-secondary" href="{{route('admin.quiz.edit', $quiz)}}">Edit</a>
+                            @endcan
 
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            @can ('delete', $quiz)
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            @endcan
                         </form>
                     </td>
                 </tr>

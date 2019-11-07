@@ -26,27 +26,38 @@
             <a class="navbar-brand" href="{{ url('/admin') }}">
                 {{ config('app.name', 'Englishtest') }}
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-pre>Quiz control</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
-                            <li><a href="{{ route('admin.quiz.index') }}" class="dropdown-item">Quizzes</a></li>
-                            <li><a href="{{ route('admin.question.index') }}" class="dropdown-item">Questions</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-pre>Users control</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
-                            <li><a href="{{ route('admin.user_management.user.index') }}" class="dropdown-item">Users</a></li>
-                            <li><a href="{{ route('admin.assignment.index') }}" class="dropdown-item">Assignments</a></li>
-                        </ul>
-                    </li>
+                    @can ('quizzes.control')
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false" v-pre>Quiz control</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
+                                <li><a href="{{ route('admin.quiz.index') }}" class="dropdown-item">Quizzes</a></li>
+                                <li><a href="{{ route('admin.question.index') }}" class="dropdown-item">Questions</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endcan
+                    @can ('users.control')
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false" v-pre>Users control</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDropdown">
+                                <li><a href="{{ route('admin.user_management.user.index') }}" class="dropdown-item">Users</a>
+                                </li>
+                                <li><a href="{{ route('admin.assignment.index') }}"
+                                       class="dropdown-item">Assignments</a></li>
+                            </ul>
+                        </li>
+                    @endcan
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -63,7 +74,8 @@
                         @endif
                     @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -74,7 +86,8 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
                                     @csrf
                                 </form>
                             </div>

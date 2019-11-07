@@ -12,10 +12,12 @@
 
         <hr>
 
-        <div class="form-group">
-            <a href="{{route('admin.assignment.create')}}" class="btn btn-primary pull-right"><i
-                        class="fa fa-plus-square-o"></i> Add new assigment</a>
-        </div>
+        @can ('create', \App\Assignment::class)
+            <div class="form-group">
+                <a href="{{route('admin.assignment.create')}}" class="btn btn-primary pull-right"><i
+                            class="fa fa-plus-square-o"></i> Add new assigment</a>
+            </div>
+        @endcan
         <table class="table  table-borderless">
             <thead class="thead-dark">
             <tr class="d-flex">
@@ -40,12 +42,18 @@
                             {{method_field('DELETE')}}
                             {{csrf_field()}}
 
-                            <a href="{{route('admin.assignment.send', $assignment)}}"
-                               class="btn btn-success">@if ($assignment->sended === 1) Resend @else Send @endif</a>
-                            <a href="{{route('admin.assignment.edit', $assignment)}}"
-                               class="btn btn-secondary">Edit</a>
+                            @can ('send', $assignment)
+                                <a href="{{route('admin.assignment.send', $assignment)}}"
+                                   class="btn btn-success">@if ($assignment->sended === 1) Resend @else Send @endif</a>
+                            @endcan
+                            @can ('update', $assignment)
+                                <a href="{{route('admin.assignment.edit', $assignment)}}"
+                                   class="btn btn-secondary">Edit</a>
+                            @endcan
 
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            @can ('delete', $assignment)
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            @endcan
                         </form>
                     </td>
                 </tr>

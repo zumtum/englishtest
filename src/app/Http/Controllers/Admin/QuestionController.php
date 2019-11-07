@@ -31,6 +31,8 @@ class QuestionController extends Controller
      */
     public function create()
     {
+        $this->authorize(Question::class);
+
         return view('admin.questions.create', [
             'question' => [],
             'types' => QuestionType::get(),
@@ -45,6 +47,8 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize(Question::class);
+
         $request->validate([
             'title' => ['required', 'string'],
             'scores' => ['required', 'integer'],
@@ -81,6 +85,8 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
+        $this->authorize($question);
+
         return view('admin.questions.edit', [
             'question' => $question,
             'types' => QuestionType::get(),
@@ -97,6 +103,8 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
+        $this->authorize($question);
+
         $request->validate([
             'title' => ['required', 'string'],
             'scores' => ['required', 'integer'],
@@ -121,6 +129,8 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
+        $this->authorize($question);
+
         $question->answers()->delete();
         $question->delete();
 

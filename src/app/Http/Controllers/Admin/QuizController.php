@@ -30,6 +30,8 @@ class QuizController extends Controller
      */
     public function create()
     {
+        $this->authorize(Quiz::class);
+
         return view('admin.quizzes.create', [
             'quiz' => [],
             'types' => QuizType::all(),
@@ -46,6 +48,8 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize(Quiz::class);
+
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
         ]);
@@ -68,7 +72,7 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz)
     {
-        //
+        $this->authorize($quiz);
     }
 
     /**
@@ -79,6 +83,8 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
+        $this->authorize($quiz);
+
         return view('admin.quizzes.edit', [
             'quiz' => $quiz,
             'types' => QuizType::get(),
@@ -97,9 +103,10 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz)
     {
+        $this->authorize($quiz);
+
         $request->validate([
-//            'title' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer'],
+            'title' => ['required', 'string', 'max:255'],
         ]);
 
         $quiz->update($request->except('slug'));
@@ -121,6 +128,8 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
+        $this->authorize($quiz);
+
         $quiz->questions()->detach();
         $quiz->delete();
 

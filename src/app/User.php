@@ -47,4 +47,41 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role', 'roles_users');
     }
+
+    /**
+     * @param array $permissions
+     *
+     * @return bool
+     */
+    public function hasAccess(array $permissions): bool
+    {
+        /** @var Role $role */
+        foreach ($this->roles as $role) {
+            if ($role->hasAccess($permissions)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $roleSlug
+     *
+     * @return bool
+     */
+    public function hasRole(string $roleSlug): bool
+    {
+        return $this->roles()->where('slug', $roleSlug)->count() === 1;
+    }
+
+    /**
+     * @param string $roleSlug
+     *
+     * @return bool
+     */
+    public function hasRoles(array $rolesSlugs): bool
+    {
+        return $this->roles()->whereIn('slug', $rolesSlugs)->count() >= 1;
+    }
 }

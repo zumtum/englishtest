@@ -32,13 +32,15 @@ class AssignmentController extends Controller
      */
     public function create(Request $request, Quiz $quiz)
     {
+        $this->authorize(Assignment::class);
+
         if ($request->get('quiz_id')) {
-            $quiz = Quiz::find($request->get('quiz_id'));
+            $quiz = Quiz::where('published', 1)->find($request->get('quiz_id'));
         }
 
         return view('admin.assignments.create', [
             'assignment' => [],
-            'quizzes' => Quiz::all(),
+            'quizzes' => Quiz::where('published', 1)->get(),
             'assignedQuiz' => $quiz ?? null,
             'users' => User::with('roles')->get(),
         ]);
@@ -52,6 +54,8 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize(Assignment::class);
+
         /** @var $assignment Assignment */
         $assignment = Assignment::create($request->all());
 
@@ -89,6 +93,8 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
+        $this->authorize($assignment);
+
         return view('admin.assignments.edit', [
             'assignment' => $assignment,
             'quizzes' => Quiz::all(),
@@ -106,6 +112,8 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, Assignment $assignment)
     {
+        $this->authorize($assignment);
+
         $assignment->update();
 
         $assignment->users()->detach();
@@ -133,6 +141,8 @@ class AssignmentController extends Controller
      */
     public function destroy(Assignment $assignment)
     {
+        $this->authorize($assignment);
+
         $assignment->users()->detach();
         $assignment->delete();
 
@@ -146,6 +156,8 @@ class AssignmentController extends Controller
      */
     public function send(Assignment $assignment)
     {
+        $this->authorize($assignment);
+
         $emails = $assignment->users()->pluck('email')->toArray();
         $quiz = Quiz::find($assignment->quiz_id);
 

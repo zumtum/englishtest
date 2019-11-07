@@ -10,9 +10,11 @@
             @slot('active') Questions @endslot
         @endcomponent
         <hr>
-        <div class="form-group">
-            <a href="{{route('admin.question.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new question</a>
-        </div>
+        @can ('create', \App\Question::class)
+            <div class="form-group">
+                <a href="{{route('admin.question.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new question</a>
+            </div>
+        @endcan
         <table class="table table-borderless">
             <thead class="thead-dark">
                 <tr class="d-flex">
@@ -35,9 +37,12 @@
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
 
-                            <a class="btn btn-secondary" href="{{route('admin.question.edit', $question)}}">Edit</a>
-
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            @can ('update', $question)
+                                <a class="btn btn-secondary" href="{{route('admin.question.edit', $question)}}">Edit</a>
+                            @endcan
+                            @can ('delete', $question)
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            @endcan
                         </form>
                     </td>
                 </tr>
