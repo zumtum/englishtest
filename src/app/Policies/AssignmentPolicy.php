@@ -30,7 +30,7 @@ class AssignmentPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAccess(['create-assignment']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['create']]);
     }
 
     /**
@@ -42,7 +42,7 @@ class AssignmentPolicy
      */
     public function update(User $user, Assignment $assignment)
     {
-        return $user->hasAccess(['update-assignment']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['update']]);
     }
 
     /**
@@ -54,7 +54,7 @@ class AssignmentPolicy
      */
     public function delete(User $user, Assignment $assignment)
     {
-        return $user->hasAccess(['delete-assignment']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['delete']]);
     }
 
     /**
@@ -66,7 +66,7 @@ class AssignmentPolicy
      */
     public function send(User $user, Assignment $assignment)
     {
-        return $user->hasAccess(['send-assignment']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['send']]);
     }
 
     /**

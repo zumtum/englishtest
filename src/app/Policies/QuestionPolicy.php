@@ -30,7 +30,7 @@ class QuestionPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAccess(['create-question']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['create']]);
     }
 
     /**
@@ -42,7 +42,7 @@ class QuestionPolicy
      */
     public function update(User $user, Question $question)
     {
-        return $user->id === $question->created_by && $user->hasAccess(['update-question']);
+        return $user->id === $question->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['update']]);
     }
 
     /**
@@ -54,7 +54,7 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question)
     {
-        return $user->id === $question->created_by && $user->hasAccess(['delete-question']);
+        return $user->id === $question->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['delete']]);
     }
 
     /**

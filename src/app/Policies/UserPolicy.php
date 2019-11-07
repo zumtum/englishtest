@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAccess(['create-user']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['user']['create']]);
     }
 
     /**
@@ -41,7 +41,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->hasAccess(['update-user']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['user']['update']]);
     }
 
     /**
@@ -53,7 +53,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->hasAccess(['delete-user']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['user']['delete']]);
     }
 
     /**
@@ -89,7 +89,7 @@ class UserPolicy
      */
     public function send(User $user)
     {
-        return $user->hasAccess(['send-inventation']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['user']['invite']]);
     }
 
 }

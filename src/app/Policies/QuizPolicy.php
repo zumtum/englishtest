@@ -19,7 +19,7 @@ class QuizPolicy
      */
     public function view(User $user, Quiz $quiz)
     {
-        return $user->hasAccess(['view-quiz']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['quiz']['view']]);
     }
 
     /**
@@ -30,7 +30,7 @@ class QuizPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAccess(['create-quiz']);
+        return $user->hasAccess([\RolesSeeder::PERMISSIONS['quiz']['create']]);
     }
 
     /**
@@ -42,7 +42,7 @@ class QuizPolicy
      */
     public function update(User $user, Quiz $quiz)
     {
-        return $user->id === $quiz->created_by && $user->hasAccess(['update-quiz']);
+        return $user->id === $quiz->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['quiz']['update']]);
     }
 
     /**
@@ -54,7 +54,7 @@ class QuizPolicy
      */
     public function delete(User $user, Quiz $quiz)
     {
-        return $user->id === $quiz->created_by && $user->hasAccess(['delete-quiz']);
+        return $user->id === $quiz->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['quiz']['delete']]);
     }
 
     /**

@@ -29,11 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('quizzes.control', function (User $user) {
-            return $user->hasRoles(['teacher', 'moderator']);
+            return $user->hasRoles([\RolesSeeder::ROLE_TEACHER['slug'], \RolesSeeder::ROLE_MODERATOR['slug']]);
         });
 
         Gate::define('users.control', function (User $user) {
-            return $user->hasRoles(['moderator']);
+            return $user->hasRoles([\RolesSeeder::ROLE_MODERATOR['slug']]);
         });
     }
 }
