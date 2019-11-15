@@ -23,7 +23,7 @@
 <div class="form-group">
     <label for="">Title</label>
     <input type="text" class="form-control" name="title" placeholder="Title of quiz"
-           value="@if(old('title')){{old('title')}}@else{{$quiz->title ?? ''}}@endif" required>
+           value="{{ old('title', $quiz->title ?? '') }}" required>
 </div>
 
 <div class="form-group">
@@ -35,14 +35,8 @@
 <div class="form-group">
     <label for="">Short description</label>
     <textarea class="form-control" name="description_short"
-              id="description_short">@if(old('description_short')){{old('description_short')}}@else{{ $quiz->description_short ?? '' }}@endif</textarea>
+              id="description_short">{{ old('description_short', $quiz->description_short ?? '') }}</textarea>
 </div>
-
-{{--<div class="form-group">--}}
-    {{--<label for="">Duration (minutes)</label>--}}
-    {{--<input type="number" class="form-control" name="duration"--}}
-           {{--value="@if(old('duration')){{old('duration')}}@else{{$quiz->duration ?? ''}}@endif">--}}
-{{--</div>--}}
 
 <div class="form-group">
     <label for="">Quiz type</label>
@@ -60,6 +54,7 @@
         @endif
     </select>
 </div>
+
 <questions-select
         :questions="{{ $questions }}"
         @if (isset($relatedQuestions))

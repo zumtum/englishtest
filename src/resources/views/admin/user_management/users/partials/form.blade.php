@@ -11,7 +11,7 @@
 <div class="form-group">
     <label for="">Email</label>
     <input type="email" class="form-control" name="email" placeholder="Email"
-           value="@if(old('email')){{old('email')}}@else{{$user->email ?? ''}}@endif" required>
+           value="{{ old('email', $user->email ?? '') }}" required>
 </div>
 <div class="form-group">
     <label for="">Password</label>
