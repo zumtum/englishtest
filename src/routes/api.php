@@ -17,6 +17,16 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::prefix('v1')->group(function() {
-    Route::apiResource('/questions', 'Api\v1\QuestionController');
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth',
+], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
 });
+
+//Route::prefix('v1')->name('api.v1.')->namespace('Api\v1')->group(function() {
+//    Route::apiResource('/questions', 'Api\v1\QuestionController');
+//});
