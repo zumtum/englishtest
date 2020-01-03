@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
  && curl -sS https://getcomposer.org/installer \
   | php -- --install-dir=/usr/local/bin --filename=composer
 
-
+COPY xdebug.ini /usr/local/etc/php/conf.d/
 # Entrypoint script
 #COPY entrypoint.sh /var/
 #RUN chmod 777 /var/entrypoint.sh

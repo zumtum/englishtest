@@ -27,6 +27,7 @@ Route::group([
     Route::post('me', 'AuthController@me');
 });
 
-//Route::prefix('v1')->name('api.v1.')->namespace('Api\v1')->group(function() {
-//    Route::apiResource('/questions', 'Api\v1\QuestionController');
-//});
+Route::prefix('v1')->name('api.v1.')->namespace('Api\v1')->group(function() {
+    Route::apiResource('questions', 'QuestionController');
+    Route::apiResource('quizzes.questions', 'QuizController')->only(['show']);
+});
