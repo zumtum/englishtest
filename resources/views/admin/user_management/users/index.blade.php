@@ -13,11 +13,11 @@
         <hr>
 
         <div class="form-group">
-            @can ('create', \App\User::class)
+            @can ('create', \App\Models\User::class)
                 <a href="{{route('admin.user_management.user.create')}}" class="btn btn-primary pull-right"><i
                         class="fa fa-plus-square-o"></i> Add new user</a>
             @endcan
-            @can ('send', \App\User::class)
+            @can ('send', \App\Models\User::class)
                 <a href="{{route('admin.user_management.user.invite')}}" class="btn btn-primary pull-right"><i
                             class="fa fa-plus-square-o"></i> Invite user</a>
             @endcan

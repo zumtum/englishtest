@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuestionResourceCollection;
-use App\Question;
-use App\Quiz;
+use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

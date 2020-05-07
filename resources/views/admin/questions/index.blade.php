@@ -10,7 +10,7 @@
             @slot('active') Questions @endslot
         @endcomponent
         <hr>
-        @can ('create', \App\Question::class)
+        @can ('create', \App\Models\Question::class)
             <div class="form-group">
                 <a href="{{route('admin.question.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new question</a>
             </div>

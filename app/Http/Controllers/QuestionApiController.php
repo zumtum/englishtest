@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuestionResourceCollection;
-use App\Question;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class QuestionApiController extends Controller

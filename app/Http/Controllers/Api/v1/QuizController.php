@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Resources\QuizResource;
-use App\Quiz;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

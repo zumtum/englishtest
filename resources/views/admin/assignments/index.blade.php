@@ -12,7 +12,7 @@
 
         <hr>
 
-        @can ('create', \App\Assignment::class)
+        @can ('create', \App\Models\Assignment::class)
             <div class="form-group">
                 <a href="{{route('admin.assignment.create')}}" class="btn btn-primary pull-right"><i
                             class="fa fa-plus-square-o"></i> Add new assigment</a>

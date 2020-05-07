@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Quiz;
+use App\Models\User;
+use App\Models\Quiz;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class QuizPolicy
@@ -13,8 +13,8 @@ class QuizPolicy
     /**
      * Determine whether the user can view the quiz.
      *
-     * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Quiz  $quiz
      * @return mixed
      */
     public function view(User $user, Quiz $quiz)
@@ -25,7 +25,7 @@ class QuizPolicy
     /**
      * Determine whether the user can create quizzes.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class QuizPolicy
     /**
      * Determine whether the user can update the quiz.
      *
-     * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Quiz  $quiz
      * @return mixed
      */
     public function update(User $user, Quiz $quiz)
@@ -48,8 +48,8 @@ class QuizPolicy
     /**
      * Determine whether the user can delete the quiz.
      *
-     * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Quiz  $quiz
      * @return mixed
      */
     public function delete(User $user, Quiz $quiz)
@@ -60,8 +60,8 @@ class QuizPolicy
     /**
      * Determine whether the user can restore the quiz.
      *
-     * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Quiz  $quiz
      * @return mixed
      */
     public function restore(User $user, Quiz $quiz)
@@ -72,8 +72,8 @@ class QuizPolicy
     /**
      * Determine whether the user can permanently delete the quiz.
      *
-     * @param  \App\User  $user
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Quiz  $quiz
      * @return mixed
      */
     public function forceDelete(User $user, Quiz $quiz)

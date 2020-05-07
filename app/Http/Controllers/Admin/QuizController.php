@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Question;
-use App\Quiz;
-use App\QuizType;
+use App\Models\Question;
+use App\Models\Quiz;
+use App\Models\QuizType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +67,7 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
     public function show(Quiz $quiz)
@@ -78,7 +78,7 @@ class QuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
     public function edit(Quiz $quiz)
@@ -98,7 +98,7 @@ class QuizController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Quiz $quiz)
@@ -123,7 +123,7 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Models\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
     public function destroy(Quiz $quiz)

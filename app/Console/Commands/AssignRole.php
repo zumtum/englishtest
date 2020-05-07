@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class AssignRole extends Command
@@ -32,12 +32,7 @@ class AssignRole extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): void
     {
         try {
             $roleSlug = $this->argument('role');

@@ -11,7 +11,7 @@
         @endcomponent
         <hr>
 
-        @can ('create', \App\Quiz::class)
+        @can ('create', \App\Models\Quiz::class)
             <div class="form-group">
                 <a href="{{route('admin.quiz.create')}}" class="btn btn-primary pull-right"><i class="fa fa-plus-square-o"></i> Add new quiz</a>
             </div>

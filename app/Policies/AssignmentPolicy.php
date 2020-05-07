@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Assignment;
+use App\Models\User;
+use App\Models\Assignment;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AssignmentPolicy
@@ -13,8 +13,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can view the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function view(User $user, Assignment $assignment)
@@ -25,7 +25,7 @@ class AssignmentPolicy
     /**
      * Determine whether the user can create assignments.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -36,8 +36,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can update the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function update(User $user, Assignment $assignment)
@@ -48,8 +48,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can delete the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function delete(User $user, Assignment $assignment)
@@ -60,8 +60,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can delete the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function send(User $user, Assignment $assignment)
@@ -72,8 +72,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can restore the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function restore(User $user, Assignment $assignment)
@@ -84,8 +84,8 @@ class AssignmentPolicy
     /**
      * Determine whether the user can permanently delete the assignment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Assignment  $assignment
      * @return mixed
      */
     public function forceDelete(User $user, Assignment $assignment)
