@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterAuthRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ApiController extends Controller
 {
     public $loginAfterSignUp = true;
 
-    public function register(RegisterAuthRequest $request)
+    public function register(RegisterAuthRequest $request): JsonResponse
     {
         $user = new User();
         $user->name = $request->name;
@@ -34,7 +35,7 @@ class ApiController extends Controller
         ], 200);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $input = $request->only('email', 'password');
         $jwt_token = null;
@@ -52,7 +53,7 @@ class ApiController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $this->validate($request, [
             'token' => 'required'
@@ -73,7 +74,7 @@ class ApiController extends Controller
         }
     }
 
-    public function getAuthUser(Request $request)
+    public function getAuthUser(Request $request): JsonResponse
     {
         $this->validate($request, [
             'token' => 'required'

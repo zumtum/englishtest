@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Question;
 use App\Models\Quiz;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function dashboard() {
+    public function dashboard(): View
+    {
         return view('admin.dashboard',[
             'quizzes' => Quiz::all(),
             'questions' => Question::all(),

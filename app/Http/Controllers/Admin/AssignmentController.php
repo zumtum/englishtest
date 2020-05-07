@@ -6,52 +6,43 @@ use App\Models\Assignment;
 use App\Mail\QuizAssigned;
 use App\Models\Quiz;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 
 class AssignmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private const PAGINATE_LIMIT = 10;
+    private const PUBLISHED_FLAG = 1;
+
+    public function index(): View
     {
         return view('admin.assignments.index', [
-            'assignments' => Assignment::with('quiz')->orderBy('created_at', 'desc')->paginate(10),
+            'assignments' => Assignment::with('quiz')
+                ->orderBy('created_at', 'desc')
+                ->paginate(self::PAGINATE_LIMIT),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request, Quiz $quiz)
     {
         $this->authorize(Assignment::class);
 
         if ($request->get('quiz_id')) {
-            $quiz = Quiz::where('published', 1)->find($request->get('quiz_id'));
+            $quiz = Quiz::where('published', self::PAGINATE_LIMIT)->find($request->get('quiz_id'));
         }
 
         return view('admin.assignments.create', [
             'assignment' => [],
-            'quizzes' => Quiz::where('published', 1)->get(),
+            'quizzes' => Quiz::where('published', self::PUBLISHED_FLAG)->get(),
             'assignedQuiz' => $quiz ?? null,
             'users' => User::with('roles')->get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->authorize(Assignment::class);
@@ -74,24 +65,7 @@ class AssignmentController extends Controller
         return redirect()->route('admin.assignment.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Assignment  $assigment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Assignment $assignment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Assignment  $assigment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Assignment $assignment)
+    public function edit(Assignment $assignment): View
     {
         $this->authorize($assignment);
 
@@ -103,14 +77,7 @@ class AssignmentController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Assignment  $assigment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Assignment $assignment)
+    public function update(Request $request, Assignment $assignment): RedirectResponse
     {
         $this->authorize($assignment);
 
@@ -133,13 +100,7 @@ class AssignmentController extends Controller
         return redirect()->route('admin.assignment.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Assignment  $assigment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Assignment $assignment)
+    public function destroy(Assignment $assignment): RedirectResponse
     {
         $this->authorize($assignment);
 
@@ -149,12 +110,7 @@ class AssignmentController extends Controller
         return redirect()->route('admin.assignment.index');
     }
 
-    /**
-     * @param Assignment $assignment
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function send(Assignment $assignment)
+    public function send(Assignment $assignment): RedirectResponse
     {
         $this->authorize($assignment);
 
@@ -172,7 +128,7 @@ class AssignmentController extends Controller
      * @param array $emails
      * @param Quiz $quiz
      */
-    private function sendMail(array $emails, Quiz $quiz)
+    private function sendMail(array $emails, Quiz $quiz): void
     {
         Mail::to($emails)
             ->cc(Auth::user()->email)

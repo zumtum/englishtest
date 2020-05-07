@@ -5,30 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizType;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class QuizController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private const PAGINATE_LIMIT = 10;
+
+    public function index(): View
     {
         return view('admin.quizzes.index', [
-            'quizzes' => Quiz::with('questions')->orderBy('created_at', 'desc')->paginate(10),
+            'quizzes' => Quiz::with('questions')
+                ->orderBy('created_at', 'desc')
+                ->paginate(self::PAGINATE_LIMIT),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         $this->authorize(Quiz::class);
 
@@ -40,13 +36,7 @@ class QuizController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->authorize(Quiz::class);
 
@@ -64,24 +54,12 @@ class QuizController extends Controller
         return redirect()->route('admin.quiz.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Quiz  $quiz
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Quiz $quiz)
+    public function show(Quiz $quiz): void
     {
         $this->authorize($quiz);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Quiz  $quiz
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Quiz $quiz)
+    public function edit(Quiz $quiz): View
     {
         $this->authorize($quiz);
 
@@ -94,14 +72,7 @@ class QuizController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Quiz  $quiz
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Quiz $quiz)
+    public function update(Request $request, Quiz $quiz): RedirectResponse
     {
         $this->authorize($quiz);
 
@@ -120,13 +91,7 @@ class QuizController extends Controller
         return redirect()->route('admin.quiz.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Quiz  $quiz
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Quiz $quiz)
+    public function destroy(Quiz $quiz): RedirectResponse
     {
         $this->authorize($quiz);
 

@@ -3,93 +3,29 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Assignment;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AssignmentPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function view(User $user, Assignment $assignment)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create assignments.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['create']]);
     }
 
-    /**
-     * Determine whether the user can update the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function update(User $user, Assignment $assignment)
+    public function update(User $user): bool
     {
         return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['update']]);
     }
 
-    /**
-     * Determine whether the user can delete the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function delete(User $user, Assignment $assignment)
+    public function delete(User $user): bool
     {
         return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['delete']]);
     }
 
-    /**
-     * Determine whether the user can delete the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function send(User $user, Assignment $assignment)
+    public function send(User $user): bool
     {
         return $user->hasAccess([\RolesSeeder::PERMISSIONS['assignment']['send']]);
-    }
-
-    /**
-     * Determine whether the user can restore the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function restore(User $user, Assignment $assignment)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the assignment.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Assignment  $assignment
-     * @return mixed
-     */
-    public function forceDelete(User $user, Assignment $assignment)
-    {
-        //
     }
 }

@@ -10,74 +10,18 @@ class QuestionPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view the question.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return mixed
-     */
-    public function view(User $user, Question $question)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can create questions.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['create']]);
     }
 
-    /**
-     * Determine whether the user can update the question.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return mixed
-     */
-    public function update(User $user, Question $question)
+    public function update(User $user, Question $question): bool
     {
         return $user->id === $question->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['update']]);
     }
 
-    /**
-     * Determine whether the user can delete the question.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return mixed
-     */
-    public function delete(User $user, Question $question)
+    public function delete(User $user, Question $question): bool
     {
         return $user->id === $question->created_by && $user->hasAccess([\RolesSeeder::PERMISSIONS['question']['delete']]);
-    }
-
-    /**
-     * Determine whether the user can restore the question.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return mixed
-     */
-    public function restore(User $user, Question $question)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the question.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Question  $question
-     * @return mixed
-     */
-    public function forceDelete(User $user, Question $question)
-    {
-        //
     }
 }

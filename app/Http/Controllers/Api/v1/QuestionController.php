@@ -11,22 +11,13 @@ use App\Http\Controllers\Controller;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return QuestionResourceCollection
-     */
+    private const PAGINATE_LIMIT = 10;
+
     public function index(): QuestionResourceCollection
     {
-        return new QuestionResourceCollection(Question::paginate());
+        return new QuestionResourceCollection(Question::paginate(self::PAGINATE_LIMIT));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return QuestionResource
-     */
     public function store(Request $request): QuestionResource
     {
         $request->validate([
@@ -40,37 +31,8 @@ class QuestionController extends Controller
         return new QuestionResource($question);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Question $question
-     * @return QuestionResource
-     */
     public function show(Question $question): QuestionResource
     {
         return new QuestionResource($question);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

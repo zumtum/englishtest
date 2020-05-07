@@ -4,44 +4,35 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private const PAGINATE_LIMIT = 10;
+    private const PARENT_CATEGORY_ID = 0;
+
+    public function index(): View
     {
         return view('admin.articles.index', [
-            'articles' => Article::orderBy('created_at', 'desc')->paginate(10),
+            'articles' => Article::orderBy('created_at', 'desc')->paginate(self::PAGINATE_LIMIT),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('admin.articles.create', [
             'article' => [],
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'categories' => Category::with('children')
+                ->where('parent_id', self::PARENT_CATEGORY_ID)
+                ->get(),
             'delimiter' => '',
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $article = Article::create($request->all());
 
@@ -52,40 +43,18 @@ class ArticleController extends Controller
         return redirect()->route('admin.article.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Article $article
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Article $article)
+    public function edit(Article $article): View
     {
         return view('admin.articles.edit', [
             'article' => $article,
-            'categories' => Category::with('children')->where('parent_id', 0)->get(),
+            'categories' => Category::with('children')
+                ->where('parent_id', self::PARENT_CATEGORY_ID)
+                ->get(),
             'delimiter' => '',
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article $article
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Article $article): RedirectResponse
     {
         $article->update($request->except('slug'));
 
@@ -97,13 +66,7 @@ class ArticleController extends Controller
         return redirect()->route('admin.article.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Article $article
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Article $article)
+    public function destroy(Article $article): RedirectResponse
     {
         $article->categories()->detach();
         $article->delete();

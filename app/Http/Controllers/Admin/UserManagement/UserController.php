@@ -4,34 +4,27 @@ namespace App\Http\Controllers\Admin\UserManagement;
 
 use App\Mail\UserInvited;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    private const PAGINATE_LIMIT = 10;
+
+    public function index(Request $request): View
     {
         return view('admin.user_management.users.index', [
             'users' => User::with('roles')
                 ->where('email', 'like', '%' . $request->input('search_users') . '%')
-                ->paginate(10),
+                ->paginate(self::PAGINATE_LIMIT),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         $this->authorize(User::class);
 
@@ -40,13 +33,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->authorize(User::class);
 
@@ -65,24 +52,7 @@ class UserController extends Controller
         return redirect()->route('admin.user_management.user.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         $this->authorize($user);
 
@@ -91,14 +61,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $this->authorize($user);
 
@@ -116,13 +79,7 @@ class UserController extends Controller
         return redirect()->route('admin.user_management.user.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $this->authorize($user);
 
@@ -131,12 +88,7 @@ class UserController extends Controller
         return redirect()->route('admin.user_management.user.index');
     }
 
-    /**
-     * Show the form for inviting a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function invite()
+    public function invite(): View
     {
         $this->authorize('send',User::class);
 
@@ -145,13 +97,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Send inventation to new user
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function send(Request $request)
+    public function send(Request $request): RedirectResponse
     {
         $this->authorize(User::class);
 
@@ -166,10 +112,7 @@ class UserController extends Controller
         return redirect()->route('admin.user_management.user.index');
     }
 
-    /**
-     * @param string $email
-     */
-    private function sendMail(string $email)
+    private function sendMail(string $email): void
     {
         Mail::to($email)
             ->send(new UserInvited());
