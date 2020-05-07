@@ -7,5 +7,5 @@ RUN apt-get update \
          libmcrypt-dev \
          libpng-dev \
          libxml2-dev
-ADD englishtest.conf /etc/nginx/conf.d/default.conf
+ADD docker/nginx/englishtest.conf /etc/nginx/conf.d/default.conf
 WORKDIR /var/www/html

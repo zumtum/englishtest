@@ -2,13 +2,15 @@ version: "3.3"
 
 services:
   nginx:
-    build: docker/nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     ports:
       - 8088:80
     depends_on:
       - phpfpm
     volumes:
-      - ./src:${APP_PATH_CONTAINER}
+      - .:${APP_PATH_CONTAINER}:ro
 
   db:
     image: mysql:5.7
@@ -18,28 +20,28 @@ services:
       - 3309:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
 
   phpfpm:
-    build: docker/phpfpm
+    build:
+      context: .
+      dockerfile: docker/phpfpm/Dockerfile
     volumes:
-      - ./src:${APP_PATH_CONTAINER}
-      - ${DB_PATH_HOST}/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - .:${APP_PATH_CONTAINER}:rw,cached
     ports:
       - 9010:9000
     environment:
+      XDEBUG_CONFIG: >-
+        remote_enable=1
+        remote_host=host.docker.internal
+        remote_connect_back=1
+        remote_port=9000
+        idekey=PHPSTORM
       PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
-    links:
+    depends_on:
       - db
-
-#  composer:
-#    image: composer:1.7
-#    volumes:
-#      - ./src:${APP_PATH_CONTAINER}
-#    working_dir: ${APP_PATH_CONTAINER}
-#    command: composer install
 
 volumes:
   mysql_data:
