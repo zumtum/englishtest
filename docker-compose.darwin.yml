@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  nginx:
+    depends_on:
+      - phpfpm
+    volumes:
+      - englishtest-sync:${APP_PATH_CONTAINER}:nocopy
+
+  phpfpm:
+    volumes:
+      - englishtest-sync:${APP_PATH_CONTAINER}:nocopy
+
+#  composer:
+#    volumes:
+#      - app-sync:${APP_PATH_CONTAINER}
+
+volumes:
+  englishtest-sync:
+    external: true

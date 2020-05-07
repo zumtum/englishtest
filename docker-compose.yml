@@ -1,43 +1,47 @@
 version: "3.3"
 
 services:
-    nginx:
-        build: ./nginx
-        links:
-            - php-fpm
-        ports:
-            - 8088:80
-            - 443:443
-        volumes:
-            - ${DB_PATH_HOST}/nginx/logs:/var/log/nginx
-            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - 8088:80
+    depends_on:
+      - phpfpm
+    volumes:
+      - .:${APP_PATH_CONTAINER}:ro
 
-    db:
-        image: mysql:5.7
-        volumes:
-          - ${DB_PATH_HOST}/mysql:/var/lib/mysql
-          - ${DB_PATH_HOST}/englishtest.cnf:/etc/mysql/conf.d/englishtest.cnf
-          - .:${APP_PATH_CONTAINER}
-        ports:
-            - 3310:3306
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
 
-    php-fpm:
-        build: ./php-fpm
-        volumes:
-            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
-            - ${DB_PATH_HOST}/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-        ports:
-            - 9010:9000
-        working_dir: ${APP_PATH_CONTAINER}
+  phpfpm:
+    build:
+      context: .
+      dockerfile: docker/phpfpm/Dockerfile
+    volumes:
+      - .:${APP_PATH_CONTAINER}:rw,cached
+    ports:
+      - 9010:9000
+    environment:
+      XDEBUG_CONFIG: >-
+        remote_enable=1
+        remote_host=host.docker.internal
+        remote_connect_back=1
+        remote_port=9000
+        idekey=PHPSTORM
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+    depends_on:
+      - db
 
-    composer:
-        image: composer:1.7
-        volumes:
-          - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
-        working_dir: ${APP_PATH_CONTAINER}
-        command: composer install
+volumes:
+  mysql_data:
